@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import api from '../../utils/Api'
 import debounce from 'lodash.debounce'
 import Flote from './Flote.component'
+import { useHistory } from 'react-router-dom'
 
 export default function FloteContainer() {
   const [loading, setLoading] = useState(true)  
@@ -12,7 +13,26 @@ export default function FloteContainer() {
   const [healthScoreFilterValues, setHealthScoreFilterValues] = useState([])
   const [regionFilterValues, setRegionFilterValues] = useState(null)
   const [showSpinner, setShowSpinner] = useState(true)
-  
+  const [canDelete, setCanDelete] = useState(true)
+  const history = useHistory()
+
+  const deleteFleet = async pId => {
+    setCanDelete(false)
+    try {        
+      const response = await api.delete(`/fleets/id/${pId}`)
+      if(response){
+        refreshFleets()
+        setCanDelete(true)
+      }
+      setLoading(false)
+    } catch (error) {
+      setCanDelete(true)
+      if(error?.response?.data?.status !== 401) {
+        setLoading(false) 
+      }
+    }   
+  }
+
   const loadFleets = async () => {
     try {        
       const response = await api.get(`/fleets/`)         
@@ -85,6 +105,19 @@ export default function FloteContainer() {
   const handleSearchChange = newSearch => {
     setSearch(newSearch.target.value)    
   }
+
+  const deleteActionHandler = e => {
+    let fId = e.target.attributes.data.value
+    if(fId && canDelete) {
+      deleteFleet(fId)
+    }
+  }
+  const editActionHandler = e => {
+    let fId = e.target.attributes.data.value
+    if(fId) {
+      history.push(`/dashboard/editeaza/flota/${fId}`)
+    }
+  }
   
   return (!loading ? 
     <Flote 
@@ -98,6 +131,8 @@ export default function FloteContainer() {
       handleHealthScoreFilterChange={handleHealthScoreFilterChange}
       healthScoreFilterValues={healthScoreFilterValues}
       showSpinner={showSpinner}
+      deleteActionHandler={deleteActionHandler}
+      editActionHandler={editActionHandler}
      />
      :
      null

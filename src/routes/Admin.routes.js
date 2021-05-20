@@ -24,6 +24,7 @@ import ComandaAgentContainer from '../pages/Comanda/ComandaAgent.container'
 import AgentiContainer from '../pages/Agenti/Agenti.container'
 import AddAgentContainer from '../pages/AddAgent/AddAgent.container'
 import AgentContainer from '../pages/Agent/Agent.container'
+import FleetEditContainer from '../pages/FleetEdit/FleetEdit.container'
 
 export default function Admin() {
   const { currentUser } = useAuth()
@@ -91,9 +92,13 @@ export default function Admin() {
             <PrivateRoute
                 path="/dashboard/flota/:fleetId"
                 exact
-            >
-              <FleetContainer />
-            </PrivateRoute>
+                component={FleetContainer}
+            />
+            <PrivateRoute
+                path="/dashboard/editeaza/flota/:fId"
+                exact
+                component={FleetEditContainer}
+            />
             <PrivateRoute
               path="/dashboard/flote/adauga"
               exact

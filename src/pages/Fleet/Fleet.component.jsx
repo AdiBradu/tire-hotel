@@ -102,7 +102,8 @@ export default function Flote(props) {
           fleetCargoSizesCount={props.fleetData.fleetCargoSizesCount}
           excessiveUsageTires={props.fleetData.excessiveUsageTires}
           mediumUsageTires={props.fleetData.mediumUsageTires}
-          noUsageTires={props.fleetData.noUsageTires} />
+          noUsageTires={props.fleetData.noUsageTires}           
+        />
         <AddSection fleetId={props.fleetData.fi_id} />        
         <TableTitle 
           text="Portofoliu vehicule in flota"

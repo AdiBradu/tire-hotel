@@ -20,8 +20,20 @@ const override =`
   border-color: red;
 `
 export default function Flote(props) {
-  const tblHeaderKeys = ["nr. crt.", "denumire", "judet", "vehicule", "anvelope", "Health score"]
+  const tblHeaderKeys = ["nr. crt.", "denumire", "judet", "vehicule", "anvelope", "Health score", "Actiuni"]
   const [showFilters, setShowFilters] = useState(false)
+  const actionsArr = [
+    {
+      iconIndex: 0,
+      name: "delete",
+      actionHandler: props.deleteActionHandler
+    },
+    {
+      iconIndex: 1,
+      name: "edit",
+      actionHandler: props.editActionHandler
+    }
+  ]
   const filtersList = [
     {
       onFilterChange: props.handleRegionFilterChange,
@@ -41,7 +53,7 @@ export default function Flote(props) {
   if(props.regionFilter) {
     fleetsDisplayData = fleetsDisplayData.filter(item => item.fleet_region.toLowerCase() === props.regionFilter.toLowerCase())
   }
-  if(props.healthScoreFilter) {
+  if(props.healthScoreFilter !== "" && props.healthScoreFilter !== null && props.healthScoreFilter !== undefined) {
     fleetsDisplayData = fleetsDisplayData.filter(item => item.tireHealthScore === props.healthScoreFilter)
   }
   if(props.search){
@@ -117,6 +129,7 @@ export default function Flote(props) {
             tableMainClass={"table"}
             tableSecondaryClass={"table-layout"}
             renderArr={[1,2,3,4,8]}
+            actionsArr={actionsArr}
           />
         :         
         <ScaleLoader 

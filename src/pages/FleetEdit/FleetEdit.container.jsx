@@ -1,43 +1,42 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import Partener from './Partener.component'
 import { useParams } from 'react-router-dom'
 import api from '../../utils/Api'
 import debounce from 'lodash.debounce'
+import FleetEdit from './FleetEdit.component'
 
-export default function PartnerContainer() {
+export default function FleetEditContainer() {
   
   const [error, setError] = useState("")
   const [success, setSuccess] = useState("")
   const [loading, setLoading] = useState(true)
   const [showSpinner, setShowSpinner] = useState(true)
-  const { pId } = useParams()
+  const { fId } = useParams()
   const [timePeriodFilter, setTimePeriodFilter] = useState("")  
   const [orders, setOrders] = useState([])
-  const [pData, setPData] = useState({
+  const [fData, setFData] = useState({
     email: '',
     first_name: '',
     last_name: '',
     phone: '',
     password: '',
     confirm_password: '',
-    partner_name: '',
-    partner_gov_id: '',
-    partner_j: '',
-    partner_address: '',
-    partner_region: '',
-    partner_city: ''
+    fleet_name: '',
+    fleet_gov_id: '',
+    fleet_j: '',
+    fleet_address: '',
+    fleet_region: '',
+    fleet_city: '',
+    fleet_percent: ''
   })
-
-
 
   const loadOrders = async () => {
     try {        
-      const response = await api.get(`/services/getServiceOrdersByPartnerId`, {
+      const response = await api.get(`/services/getServiceOrdersByFleetId`, {
         params: {
-          partnerId: pId   
+          fleetId: fId   
         }
       })         
-      if(response.data) {
+      if(response.data) {      
         let formattedOrders = []
         formattedOrders = response.data.map( (o, index) => {
           let t = new Date(o.created);
@@ -45,7 +44,8 @@ export default function PartnerContainer() {
           let m = t.getMonth()+1; 
           let y = t.getFullYear();
           let formattedDate = d+'/'+m+'/'+y
-          let {so_id, ...restOfO} = {...o}          
+          let {so_id, ...restOfO} = {...o}
+          
           let newO = {so_id,formattedDate,...restOfO}
           newO.order_total = parseFloat(newO.order_total.toFixed(2))
           return newO
@@ -63,14 +63,14 @@ export default function PartnerContainer() {
   const refreshOrders = useCallback(debounce(loadOrders, 300), [])
 
 
-  const handlePartnerUpdate = async newPartnerData => {
-    return api.patch(`/partners/id/${pId}`, newPartnerData)
+  const handleFleetUpdate = async newFleetData => {
+    return api.patch(`/fleets/id/${fId}`, newFleetData)
   }
 
 
-  const loadPartnerInfo = async pId => {
+  const loadFleetInfo = async pId => {
     try {        
-      const response = await api.get(`/partners/id/${pId}`)
+      const response = await api.get(`/fleets/getWithUserDataByFleetId/${fId}`)
       return response;
     } catch (error) {
       return error;
@@ -80,23 +80,22 @@ export default function PartnerContainer() {
   useEffect(() => {
     let mounted = true;
     if(mounted) {
-      loadPartnerInfo(pId).then(res => {
-        setPData({
+      loadFleetInfo(fId).then(res => {
+        setFData({
           email: res.data.email,
           first_name: res.data.first_name,
           last_name: res.data.last_name,
           phone: res.data.phone,
           password: '',
           confirm_password: '',
-          partner_name: res.data.partner_name,
-          partner_gov_id: res.data.partner_gov_id,
-          partner_j: res.data.partner_j,
-          partner_address: res.data.partner_address,
-          partner_region: res.data.partner_region,
-          partner_city: res.data.partner_city,
-          partner_percent: parseFloat(res.data.partner_percent.toFixed(2)).toString()
+          fleet_name: res.data.fleet_name,
+          fleet_gov_id: res.data.fleet_gov_id,
+          fleet_j: res.data.fleet_j,
+          fleet_address: res.data.fleet_address,
+          fleet_region: res.data.fleet_region,
+          fleet_city: res.data.fleet_city,
+          fleet_percent: parseFloat(res.data.fleet_percent.toFixed(2)).toString()
         })
-        
         setLoading(false)
       })
       refreshOrders()
@@ -104,18 +103,18 @@ export default function PartnerContainer() {
     return () => mounted = false
   },[])
 
-  function updatePData(changedField, changedValue){
-    const newPData = {...pData}
-    newPData[changedField] = changedValue
-    setPData(newPData)
+  function updateFData(changedField, changedValue){
+    const newFData = {...fData}
+    newFData[changedField] = changedValue
+    setFData(newFData)
   }
 
   function prepareFormData(){
-    if(pData.password === '') {
-      const {password, confirm_password, ...parsedDataToPost} = pData 
+    if(fData.password === '') {
+      const {password, confirm_password, ...parsedDataToPost} = fData 
       return parsedDataToPost
     } else { 
-      return pData
+      return fData
     }
   }
 
@@ -127,7 +126,7 @@ export default function PartnerContainer() {
       setError("")
       setSuccess("")
       setLoading(true)
-      const response  = await handlePartnerUpdate(formDataToPost)
+      const response  = await handleFleetUpdate(formDataToPost)
       if(response.status === 200) setSuccess(response?.data?.message)         
       setLoading(false)
 
@@ -140,7 +139,7 @@ export default function PartnerContainer() {
           setError(error?.response?.data?.message)
         }
       } else {
-        setError("Creare partener esuata")
+        setError("Actualizare flota esuata")
       }
       setLoading(false)
 
@@ -152,14 +151,14 @@ export default function PartnerContainer() {
     setTimePeriodFilter(newFilter)    
   }
 
-  return (!loading && <Partener 
+  return (!loading && <FleetEdit 
           orders={orders}
-          pData={pData}
+          fData={fData}
           error={error}
           success={success}
           loading={loading}
           handleSubmit={handleSubmit}
-          onChange={updatePData}
+          onChange={updateFData}
           timePeriodFilter={timePeriodFilter}
           handleTimePeriodFilterChange={handleTimePeriodFilterChange}      
           showSpinner={showSpinner}

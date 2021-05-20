@@ -3,7 +3,7 @@ import './HealthScore.component.scss'
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
-const percentage = 0;
+
 
 const green = "#06D6A0"
 const orange = "#FF9E00"
@@ -38,10 +38,9 @@ const stylesGreen = buildStyles(
 
 
 
-export default function HealthScore() {
+export default function HealthScore(props) {
     const [progress, setProgress] = useState()
-
-
+    const percentage = props.healthScore;
     return (
         <div className="health-score">
             <CircularProgressbar 
