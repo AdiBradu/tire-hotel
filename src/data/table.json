@@ -1,0 +1,20 @@
+[
+    {
+        "name": "nr. crt."
+    },
+    {
+        "name": "denumire"
+    },
+    {
+        "name": "nr. vehicule"
+    },
+    {
+        "name": "nr. anvelope"
+    },
+    {
+        "name": "judet"
+    },
+    {
+        "name": "health score"
+    }
+]

@@ -1,0 +1,25 @@
+.segment{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: auto;
+    p{
+        font-size: 20px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+    .stats-data{
+        white-space: nowrap;
+        p{
+            font-weight: 400;
+            font-size: 14px;
+            text-transform:capitalize;
+            span{
+                font-size: 14px;
+                font-weight: 600;
+            }
+        }
+    }
+}

@@ -1,0 +1,11 @@
+.filter-tab{
+  position: relative;
+  width: 100%;
+  display: none;
+  flex-shrink: 0;
+  overflow-x: auto;
+  gap: 12px;
+}
+.active{
+  display: flex;
+}

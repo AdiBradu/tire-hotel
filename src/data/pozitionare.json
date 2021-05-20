@@ -1,0 +1,26 @@
+[
+    {
+        "id": "1",
+        "pozitie": "fata/dreapta"
+    },
+    {
+        "id": "2",
+        "pozitie": "fata/stanga"
+    },
+    {
+        "id": "3",
+        "pozitie": "spate/dreapta"
+    },
+    {
+        "id": "4",
+        "pozitie": "spate/stanga"
+    },
+    {
+        "id": "5",
+        "pozitie": "spate/dublu/dreapta"
+    },
+    {
+        "id": "6",
+        "pozitie": "spate/dublu/stanga"
+    }
+]

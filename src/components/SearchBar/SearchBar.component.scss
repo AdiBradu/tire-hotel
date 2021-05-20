@@ -1,0 +1,25 @@
+.search-bar{
+    border: 1.5px solid #1D3557;
+    border-radius: 24px;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 16PX;
+    gap: 8px;
+    input{
+        border: none;
+        background-color: transparent;
+        outline: none;
+        max-width: 100px;
+        font-weight: 500;
+        @media (min-width:768px) {
+            max-width: 240px;
+        }
+        @media (min-width:1200px) {
+            max-width: 360px;
+        }
+        &::placeholder{
+            color: #1D3557;
+            font-weight: 500;
+        }
+    }
+}

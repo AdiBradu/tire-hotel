@@ -1,0 +1,69 @@
+.vehicle-wrapper{
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 10px;
+  .vehicle-tires{
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    grid-gap: 10px;
+    // @media screen and (min-width: 768px) {
+    //   flex-direction: row;
+    // }
+    .tire-details{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: flex-start;
+      .tires-wrapper{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 32px;
+        .tire-layout{
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          @media screen and (min-width: 768px) {
+            width: auto;
+          }
+          h5{
+            color: #1D3557;
+          }
+        }
+      }
+      p{
+          font-weight: 600;
+          margin-bottom: 6px;
+          letter-spacing: 3%;
+      }
+      .tire-row{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        @media screen and (min-width: 768px) {
+          width: auto;
+        }
+      }
+      .vehicle-row{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        align-items: flex-start;
+        margin-bottom: 20px;  
+      }
+    }
+  }
+}
+
+
+

@@ -1,0 +1,12 @@
+.option-check{
+    display: flex;
+    align-items: flex-start;
+    width: auto;
+    gap: 8px;
+    input{
+        width: 16px;
+        height: 16px;
+        border-radius: 2px;
+        background-color: #FFD185;
+    }
+}

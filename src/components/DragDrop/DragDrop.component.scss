@@ -1,0 +1,36 @@
+.drag-drop{
+    width: 100%;
+    height: 100%;
+    min-height: 320px;
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    span{
+        text-decoration: underline;
+        color: #457B9D;
+        cursor: pointer;
+    }
+}
+
+.border-active{
+  border: 2px dashed;
+  border-color: #000; 
+}
+
+.files-area{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  grid-gap: 16px;
+  gap: 16px;
+}
+.files-area>p{
+  font-weight: 700;
+}

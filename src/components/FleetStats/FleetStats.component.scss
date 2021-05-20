@@ -1,0 +1,10 @@
+.fleet-stats{
+    position: relative;
+    width: 100%;
+    height: auto;
+    overflow-y: hidden;
+    overflow-x: auto;
+    display: flex;
+    flex-shrink: 0;
+    gap: 32px;
+}

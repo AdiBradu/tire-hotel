@@ -1,0 +1,12 @@
+.partner-dets{
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  grid-gap: 50px;
+}
+
+@media screen and (max-width: 600px) {
+  .partner-dets{
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,14 @@
+.section-title{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-shrink: 0;
+    gap: 16px;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-size: small;
+    text-align: left;
+    @media (min-width: 768px) {
+        // font-size: inherit;
+    }
+}

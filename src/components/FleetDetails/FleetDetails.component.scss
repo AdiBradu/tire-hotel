@@ -1,0 +1,11 @@
+.fleet-details{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+    p{
+        font-weight: 600;
+        margin-bottom: 6px;
+        letter-spacing: 3%;
+    }
+}

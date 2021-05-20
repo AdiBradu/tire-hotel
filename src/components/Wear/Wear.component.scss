@@ -1,0 +1,21 @@
+.wear{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: auto;
+    p{
+        font-size: 18px;
+        font-weight: 700;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+    .wear-data{
+        p{
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+    }
+}

@@ -1,0 +1,141 @@
+.table{
+    width: 100%;
+    overflow-x: auto;
+    flex-shrink: 0;
+    .table-layout{
+        width: 100%;
+        height: auto;
+        display: grid;
+        grid-template-columns: 80px 320px repeat(2, 100px) 140px 135px;
+        grid-template-rows: repeat(1, 1fr);
+        grid-column-gap: 16px;
+        grid-row-gap: 16px;
+        text-transform: capitalize;
+        text-align: left;
+    }     
+}
+
+.table-tires{
+  width: 100%;
+  overflow-x: auto;
+  flex-shrink: 0;
+  .table-tires-layout{
+      width: 100%;
+      height: auto;
+      display: grid;
+      grid-template-columns: repeat(4, 90px) 110px 130px 90px 100px 80px 80px 80px;
+      grid-template-rows: repeat(1, 1fr);
+      grid-column-gap: 16px;
+      grid-row-gap: 16px;
+      text-transform: capitalize;
+      text-align: left;
+  }     
+}
+
+
+.partner-table{
+  width: 100%;
+  overflow-x: auto;
+  flex-shrink: 0;
+  .partner-table-layout{
+      width: 100%;
+      height: auto;
+      display: grid;
+      grid-template-columns: 80px 320px 100px 135px;
+      grid-template-rows: repeat(1, 1fr);
+      grid-column-gap: 16px;
+      grid-row-gap: 16px;
+      text-transform: capitalize;
+      text-align: left;
+  }     
+}
+
+
+
+.table-services-tires{
+  width: 100%;
+  overflow-x: auto;
+  flex-shrink: 0;
+  .table-services-tires-layout{
+      width: 100%;
+      height: auto;
+      display: grid;
+      grid-template-columns: 70px 175px 110px 110px 90px 130px 160px 90px 80px 80px;
+      grid-template-rows: repeat(1, 1fr);
+      grid-column-gap: 16px;
+      grid-row-gap: 16px;
+      text-transform: capitalize;
+      text-align: left;
+  }     
+}
+
+
+.table-services{
+  width: 100%;
+  overflow-x: auto;
+  flex-shrink: 0;
+  .table-services-layout{
+      width: 100%;
+      height: auto;
+      display: grid;
+      grid-template-columns: 70px 100px 500px 135px;
+      grid-template-rows: repeat(1, 1fr);
+      grid-column-gap: 16px;
+      grid-row-gap: 16px;
+      text-transform: capitalize;
+      text-align: left;
+  }     
+}
+
+
+.table-orders{
+  width: 100%;
+  overflow-x: auto;
+  flex-shrink: 0;
+  .table-orders-layout{
+      width: 100%;
+      height: auto;
+      display: grid;
+      grid-template-columns: 80px 100px 180px 120px 240px;
+      grid-template-rows: repeat(1, 1fr);
+      grid-column-gap: 16px;
+      grid-row-gap: 16px;
+      text-transform: capitalize;
+      text-align: left;
+  }     
+}
+
+.table-order-details{
+  width: 100%;
+  overflow-x: auto;
+  flex-shrink: 0;
+  .table-order-details-layout{
+      width: 100%;
+      height: auto;
+      display: grid;
+      grid-template-columns: 80px 350px 180px;
+      grid-template-rows: repeat(1, 1fr);
+      grid-column-gap: 16px;
+      grid-row-gap: 16px;
+      text-transform: capitalize;
+      text-align: left;
+  }     
+}
+
+
+.agent-table{
+  width: 100%;
+  overflow-x: auto;
+  flex-shrink: 0;
+  .agent-table-layout{
+      width: 100%;
+      height: auto;
+      display: grid;
+      grid-template-columns: 80px 320px 200px 200px 135px;
+      grid-template-rows: repeat(1, 1fr);
+      grid-column-gap: 16px;
+      grid-row-gap: 16px;
+      text-transform: capitalize;
+      text-align: left;
+  }     
+}

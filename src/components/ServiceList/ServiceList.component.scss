@@ -1,0 +1,21 @@
+.service-list{
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    p{
+        font-weight: 600;
+        text-transform: uppercase;
+        padding: 8px 16px;
+        &:hover{
+            background-color: #06D6A0;
+            box-shadow: 3px 3px 35px 7px rgba(0,0,0,0.25);
+            cursor: pointer;
+            border-radius: 5px;
+            transform: scale(1.1);
+        }
+    }
+}

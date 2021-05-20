@@ -1,0 +1,16 @@
+.table-title{
+    width: 100%;
+    overflow-x: auto;
+    display: flex;
+    align-items: flex-end;
+    flex-shrink: 0;
+    gap: 24px;
+    color: #457B9D;
+    @media (min-width: 768px) {
+        overflow-x: visible;
+    }
+    h4{
+        font-weight: 700;
+        white-space: nowrap;
+    }
+}

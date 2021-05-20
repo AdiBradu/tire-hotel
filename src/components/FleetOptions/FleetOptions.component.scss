@@ -1,0 +1,9 @@
+.fleet-options{
+    display: flex;
+    flex-direction: column;
+    gap: 128px;
+    margin: auto;
+    @media (min-width: 768px) {
+        flex-direction: row;
+    }
+}

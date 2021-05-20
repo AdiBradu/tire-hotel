@@ -1,0 +1,64 @@
+.combo-select{
+    position: relative;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    .filter{
+        position: relative;
+        width: inherit;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 4px 12px;
+        border-radius: 2px;
+        gap: 4px;
+        color: #1D3557;
+        font-weight: 500;
+        cursor: pointer;
+        white-space: nowrap;
+        background-color: rgba(255, 209, 133,1);
+        .filter-header{
+            display: flex;
+            gap: 4px;
+            text-align: left;
+            p{
+                font-weight: 500;
+            }
+            p.selected{
+                margin-top: auto;
+                margin-bottom: auto;
+            }
+        }
+    } 
+    .filter-options{
+        width: inherit;
+        max-height: 140px;
+        position: relative;
+        display: block;
+        // top: 100%;
+        // left: 0;
+        // right: 0;
+        z-index: 1000;
+        background-color: #FFD185;
+        margin-top: 2px;
+        border-radius: 5px;
+        padding: 8px 12px;
+        overflow-y: auto;
+        text-align: left;
+        color: #1D3557;
+        font-weight: 500;
+        .first{
+            opacity: 0.6;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .filter-option{
+            text-align: left;
+            &:hover{
+                cursor: pointer;
+                opacity: 0.5;
+            }
+        }
+    }
+}
