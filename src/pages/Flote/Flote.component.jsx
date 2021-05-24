@@ -22,18 +22,29 @@ const override =`
 export default function Flote(props) {
   const tblHeaderKeys = ["nr. crt.", "denumire", "judet", "vehicule", "anvelope", "Health score", "Actiuni"]
   const [showFilters, setShowFilters] = useState(false)
-  const actionsArr = [
-    {
-      iconIndex: 0,
-      name: "delete",
-      actionHandler: props.deleteActionHandler
-    },
-    {
-      iconIndex: 1,
-      name: "edit",
-      actionHandler: props.editActionHandler
-    }
-  ]
+  let actionsArr = []
+  if(props.currentUserType === 1) {
+    actionsArr = [
+      {
+        iconIndex: 0,
+        name: "delete",
+        actionHandler: props.deleteActionHandler
+      },
+      {
+        iconIndex: 1,
+        name: "edit",
+        actionHandler: props.editActionHandler
+      }
+    ]
+  } else if(props.currentUserType === 2) {
+    actionsArr = [     
+      {
+        iconIndex: 1,
+        name: "edit",
+        actionHandler: props.editActionHandler
+      }
+    ]
+  }
   const filtersList = [
     {
       onFilterChange: props.handleRegionFilterChange,
@@ -53,8 +64,8 @@ export default function Flote(props) {
   if(props.regionFilter) {
     fleetsDisplayData = fleetsDisplayData.filter(item => item.fleet_region.toLowerCase() === props.regionFilter.toLowerCase())
   }
-  if(props.healthScoreFilter !== "" && props.healthScoreFilter !== null && props.healthScoreFilter !== undefined) {
-    fleetsDisplayData = fleetsDisplayData.filter(item => item.tireHealthScore === props.healthScoreFilter)
+  if(props.healthScoreFilter !== "" && props.healthScoreFilter !== null && props.healthScoreFilter !== undefined) {    
+    fleetsDisplayData = fleetsDisplayData.filter(item => parseInt(item.tireHealthScore) === parseInt(props.healthScoreFilter))
   }
   if(props.search){
     fleetsDisplayData = fleetsDisplayData.filter(item => {

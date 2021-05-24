@@ -3,6 +3,7 @@ import api from '../../utils/Api'
 import debounce from 'lodash.debounce'
 import Flote from './Flote.component'
 import { useHistory } from 'react-router-dom'
+import { useAuth } from '../../contexts/AuthContext'
 
 export default function FloteContainer() {
   const [loading, setLoading] = useState(true)  
@@ -15,6 +16,7 @@ export default function FloteContainer() {
   const [showSpinner, setShowSpinner] = useState(true)
   const [canDelete, setCanDelete] = useState(true)
   const history = useHistory()
+  const { currentUser } = useAuth()  
 
   const deleteFleet = async pId => {
     setCanDelete(false)
@@ -99,7 +101,7 @@ export default function FloteContainer() {
   const handleRegionFilterChange = newFilter => {    
     setRegionFilter(newFilter)    
   }
-  const handleHealthScoreFilterChange = newFilter => {    
+  const handleHealthScoreFilterChange = newFilter => {        
     setHealthScoreFilter(newFilter)    
   }
   const handleSearchChange = newSearch => {
@@ -108,7 +110,7 @@ export default function FloteContainer() {
 
   const deleteActionHandler = e => {
     let fId = e.target.attributes.data.value
-    if(fId && canDelete) {
+    if(fId && canDelete && currentUser.user_type === 1) {
       deleteFleet(fId)
     }
   }
@@ -133,6 +135,7 @@ export default function FloteContainer() {
       showSpinner={showSpinner}
       deleteActionHandler={deleteActionHandler}
       editActionHandler={editActionHandler}
+      currentUserType={currentUser.user_type}
      />
      :
      null

@@ -42,7 +42,7 @@ export default function TireDetails(props) {
   } 
 
   let treadUsageOpts = []
-  for(let i=0;i < 12;i += 0.1) {
+  for(let i=0;i < 12;i += 0.5) {
     treadUsageOpts.push(i.toFixed(1)) 
   }
 

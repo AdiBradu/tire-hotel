@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Vehicle from './Vehicle.component'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import api from '../../utils/Api'
 
 export default function VehicleContainer() {
@@ -12,6 +12,7 @@ export default function VehicleContainer() {
   const [prefill, setPrefill] = useState(false) 
   const [tireFilter, setTireFilter] = useState("")
   const [vehicleTireCount, setVehicleTireCount] = useState(4) 
+  const history = useHistory()
   const { fleetId } = useParams()
 
   /* Load available tire options */
@@ -83,14 +84,20 @@ export default function VehicleContainer() {
     }
     else
     {      
-      newVData[changedField] = changedValue
+      if(changedField === 'regNumber') {
+        newVData[changedField] = changedValue.replace(/[^\w]+/gi, "")
+      } else if(changedField === 'vechicleMilage') {
+        newVData[changedField] = changedValue.replace(/[^0-9]+/gi, "")
+      } else {
+        newVData[changedField] = changedValue
+      }
       setVData(newVData)
     }
 
   }
  
   async function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault()    
     let vehiclePostData = vData
     
     if(vData.regNumber === "") {
@@ -135,31 +142,7 @@ export default function VehicleContainer() {
       setSuccess("")
       setLoading(true)
       const response  = await handleVehicleCreation(vehiclePostData)    
-      if(response.status === 201) setSuccess(response.data)     
-      setVData({
-        fleetId: fleetId,
-        regNumber : '',
-        vehicle_tire_count: vData.vehicle_tire_count,
-        vechicleBrand: '',
-        vechicleModel: '',
-        vehicleType:  'TURISM',
-        vechicleMilage : '',
-        vehicleTires: {
-          widths: ["1","1","1","1","1","1"], 
-          heights: ["1","1","1","1","1","1"], 
-          diameters: ["1","1","1","1","1","1"], 
-          speedIndexes: ["1","1","1","1","1","1"], 
-          loadIndexes: ["1","1","1","1","1","1"], 
-          brands: ["1","1","1","1","1","1"], 
-          models: ["","","","","",""],
-          seasons: ["Iarna","Iarna","Iarna","Iarna","Iarna","Iarna"],
-          dots: ["","","","","",""],
-          rims: ["1","1","1","1","1","1"], 
-          treadUsages: ["0.0","0.0","0.0","0.0","0.0","0.0"]
-        }
-      })
-      setLoading(false)
-
+      if(response.status === 201) history.push(`/dashboard/flota/${fleetId}`)
     } catch(error) {
       
       if(error?.response?.data?.status < 500) {

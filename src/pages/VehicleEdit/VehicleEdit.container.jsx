@@ -103,7 +103,13 @@ export default function VehicleEditContainer() {
     }
     else
     {      
-      newVData[changedField] = changedValue
+      if(changedField === 'regNumber') {
+        newVData[changedField] = changedValue.replace(/[^\w]+/gi, "")
+      } else if(changedField === 'vechicleMilage') {
+        newVData[changedField] = changedValue.replace(/[^0-9]+/gi, "")
+      } else {
+        newVData[changedField] = changedValue
+      }
       setVData(newVData)
     }
 

@@ -1,17 +1,22 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import './Alert.component.scss'
 
 export default function Alert(props) {
 
-  const [showlert, setShowAlert] = useState(true)
+  const [showAlert, setShowAlert] = useState(true)
+  const [dismissedAlert, setDismissedAlert] = useState(null) 
+  const dismissCurrentAlert = () => {
+    setShowAlert(false)    
+    setDismissedAlert(props.message)
+  }
 
   let alert
 
-  if(showlert){
+  if(showAlert || (dismissedAlert && dismissedAlert !== props.message)){
     alert =  
     <div className="alert-background">
       <div className={props.alertClass}><p>{props.message}</p></div>
-      <p onClick={() => setShowAlert(!showlert)}>OK</p>
+      <p onClick={() => dismissCurrentAlert()}>OK</p>
     </div>
   }
 

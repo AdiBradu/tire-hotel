@@ -18,9 +18,9 @@ export default function PartnerHome(props) {
           (
             !props.vehicle 
             ?
-            <ReturnSearchAuto text={`${props.search} nu a fost gasit`} bgcolor={"#FF9E00"} color={"#1D3557"} onClick={props.resetSearchHandler} action={"Cauta din nou"} />
+            <ReturnSearchAuto text={`${props.search.toUpperCase()} nu a fost gasit`} bgcolor={"#FF9E00"} color={"#1D3557"} onClick={props.resetSearchHandler} action={"Cauta din nou"} />
             :  
-            <ReturnSearchAuto text={`${props.search} a fost gasit.`} bgcolor={"#06D6A0"} color={"#1D3557"} onClick={props.startServiceHandler} action={"START SERVICE"} /> 
+            <ReturnSearchAuto text={`${props.search.toUpperCase()} a fost gasit.`} bgcolor={"#06D6A0"} color={"#1D3557"} onClick={props.startServiceHandler} action={"START SERVICE"} /> 
           )
         }
       </div>

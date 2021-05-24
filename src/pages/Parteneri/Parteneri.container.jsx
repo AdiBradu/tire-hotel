@@ -93,6 +93,7 @@ export default function ParteneriContainer() {
       deletePartner(pId)
     }
   }
+  
   const editActionHandler = e => {
     let pId = e.target.attributes.data.value
     if(pId) {

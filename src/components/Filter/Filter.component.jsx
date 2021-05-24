@@ -9,8 +9,10 @@ export default function Filter(props) {
 
     useEffect(() => {
       let mounted = true
-      if(mounted) {
-        if(props.currentFilter) setOption(props.currentFilter)
+      if(mounted) {        
+        if(props.currentFilter !== "" && props.currentFilter !== null && props.currentFilter !== undefined) {
+         setOption(props.currentFilter)
+        }
       }
       return () => mounted=false
     },[])
@@ -41,7 +43,7 @@ export default function Filter(props) {
             <div className="filter" onClick={() => setActive(!active)}>
                 <div className="filter-header">
                     <div><img src={FilterLogo} alt=""/></div>
-                    <p className="selected">{option ? option : props.name}</p>
+                    <p className="selected">{option !== "" & option !== null & option !== undefined ? option : props.name}</p>
                 </div>
             </div>
             {options}

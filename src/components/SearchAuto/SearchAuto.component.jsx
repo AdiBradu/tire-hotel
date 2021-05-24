@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import './SearchAuto.component.scss'
 
 export default function SearchAuto(props) {
@@ -6,6 +6,18 @@ export default function SearchAuto(props) {
   const handleClickEvent = () => {    
     props.searchHandler(searchInput.current.value)
   }
+  useEffect(() => {
+    const listener = event => {
+      if (event.code === "Enter" || event.code === "NumpadEnter") {        
+        event.preventDefault()
+        props.searchHandler(searchInput.current.value)
+      }
+    };
+    document.addEventListener("keydown", listener);
+    return () => {
+      document.removeEventListener("keydown", listener);
+    };
+  }, []);
   return (
     <div className="search-auto"> 
       <input type="search" ref={searchInput} placeholder="B123WTS"/>

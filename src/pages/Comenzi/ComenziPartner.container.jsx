@@ -17,16 +17,14 @@ export default function ComenziPartnerContainer() {
         let formattedOrders = []
         formattedOrders = response.data.map( (o, index) => {
           let t = new Date(o.created);
-          let d = t.getDate();
-          /* if(d < 10) {
-            d = "0" + d
-          } */
+          let d = t.getDate();          
           let m = t.getMonth()+1; 
           let y = t.getFullYear();
           let formattedDate = d+'/'+m+'/'+y
           let {so_id, ...restOfO} = {...o}
           
           let newO = {so_id,formattedDate,...restOfO}
+          newO.order_total = parseFloat(newO.order_total.toFixed(2))
           return newO
         })
         setOrders(formattedOrders)        

@@ -24,6 +24,7 @@ export default function ComenziAgentContainer() {
           let {so_id, ...restOfO} = {...o}
           
           let newO = {so_id,formattedDate,...restOfO}
+          newO.order_total = parseFloat(newO.order_total.toFixed(2))
           return newO
         })
         setOrders(formattedOrders)        

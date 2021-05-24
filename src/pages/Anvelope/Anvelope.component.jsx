@@ -39,7 +39,7 @@ export default function Anvelope(props) {
   if(props.regionFilter) {
     fleetsDisplayData = fleetsDisplayData.filter(item => item.fleet_region.toLowerCase() === props.regionFilter.toLowerCase())
   }
-  if(props.healthScoreFilter) {
+  if(props.healthScoreFilter !== "" && props.healthScoreFilter !== null && props.healthScoreFilter !== undefined) {
     fleetsDisplayData = fleetsDisplayData.filter(item => item.tireHealthScore === props.healthScoreFilter)
   }
   if(props.search){

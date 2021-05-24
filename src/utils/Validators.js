@@ -501,12 +501,12 @@ export const validateVehicleBulkImport = (fileContents, tireOpts, fleetId) => {
 
       let newVehicle = {
         fleetId: fleetId,
-        regNumber : el[1],
+        regNumber : el[1].replace(/[^\w]+/gi, ""),
         vehicle_tire_count: el[0],
         vechicleBrand: el[2],
         vechicleModel: el[3],
         vehicleType:  el[4].toUpperCase(),
-        vechicleMilage : el[5],
+        vechicleMilage : el[5].replace(/[^0-9]+/gi, ""),
         vehicleTires: {
           widths: tiresWidths, 
           heights: tiresHeights, 

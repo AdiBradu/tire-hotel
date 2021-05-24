@@ -86,14 +86,14 @@ export default function TiresContainer() {
 					if (treadUsages.indexOf(el.tread_wear) === -1) treadUsages.push(el.tread_wear)
 					if (dots.indexOf(el.tire_dot) === -1) dots.push(el.tire_dot)
 				})
-				setTiresWidthFilterValues(widths)
-				setTiresHeightFilterValues(heights)
-				setTiresDiameterFilterValues(diameters)
-				setTiresSeasonFilterValues(seasons)
-				setTiresBrandFilterValues(brands)
-				setTiresVehicleTypeFilterValues(vehicleTypes)
-				setTiresTreadUsageFilterValues(treadUsages)
-				setTiresDotFilterValues(dots)
+				setTiresWidthFilterValues(widths.sort())
+				setTiresHeightFilterValues(heights.sort())
+				setTiresDiameterFilterValues(diameters.sort())
+				setTiresSeasonFilterValues(seasons.sort())
+				setTiresBrandFilterValues(brands.sort())
+				setTiresVehicleTypeFilterValues(vehicleTypes.sort())
+				setTiresTreadUsageFilterValues(treadUsages.sort())
+				setTiresDotFilterValues(dots.sort())
 			}
 			setShowSpinner(false);
 		} catch (error) {

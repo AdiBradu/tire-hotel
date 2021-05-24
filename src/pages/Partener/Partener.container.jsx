@@ -3,6 +3,7 @@ import Partener from './Partener.component'
 import { useParams } from 'react-router-dom'
 import api from '../../utils/Api'
 import debounce from 'lodash.debounce'
+import { useAuth } from '../../contexts/AuthContext'
 
 export default function PartnerContainer() {
   
@@ -13,6 +14,7 @@ export default function PartnerContainer() {
   const { pId } = useParams()
   const [timePeriodFilter, setTimePeriodFilter] = useState("")  
   const [orders, setOrders] = useState([])
+  const { currentUser } = useAuth()  
   const [pData, setPData] = useState({
     email: '',
     first_name: '',
@@ -81,22 +83,38 @@ export default function PartnerContainer() {
     let mounted = true;
     if(mounted) {
       loadPartnerInfo(pId).then(res => {
-        setPData({
-          email: res.data.email,
-          first_name: res.data.first_name,
-          last_name: res.data.last_name,
-          phone: res.data.phone,
-          password: '',
-          confirm_password: '',
-          partner_name: res.data.partner_name,
-          partner_gov_id: res.data.partner_gov_id,
-          partner_j: res.data.partner_j,
-          partner_address: res.data.partner_address,
-          partner_region: res.data.partner_region,
-          partner_city: res.data.partner_city,
-          partner_percent: parseFloat(res.data.partner_percent.toFixed(2)).toString()
-        })
-        
+        if(currentUser.user_type === 1) {
+          setPData({
+            email: res.data.email,
+            first_name: res.data.first_name,
+            last_name: res.data.last_name,
+            phone: res.data.phone,
+            password: '',
+            confirm_password: '',
+            partner_name: res.data.partner_name,
+            partner_gov_id: res.data.partner_gov_id,
+            partner_j: res.data.partner_j,
+            partner_address: res.data.partner_address,
+            partner_region: res.data.partner_region,
+            partner_city: res.data.partner_city,
+            partner_percent: parseFloat(res.data.partner_percent.toFixed(2)).toString()
+          })
+        } else { 
+          setPData({
+            email: res.data.email,
+            first_name: res.data.first_name,
+            last_name: res.data.last_name,
+            phone: res.data.phone,
+            password: '',
+            confirm_password: '',
+            partner_name: res.data.partner_name,
+            partner_gov_id: res.data.partner_gov_id,
+            partner_j: res.data.partner_j,
+            partner_address: res.data.partner_address,
+            partner_region: res.data.partner_region,
+            partner_city: res.data.partner_city
+          })  
+        }
         setLoading(false)
       })
       refreshOrders()
@@ -163,5 +181,6 @@ export default function PartnerContainer() {
           timePeriodFilter={timePeriodFilter}
           handleTimePeriodFilterChange={handleTimePeriodFilterChange}      
           showSpinner={showSpinner}
+          currentUserType={currentUser.user_type}
           />)
 }

@@ -12,6 +12,7 @@ import TableTitle from '../../components/TableTitle/TableTitle.component'
 import FilterOrders from '../../components/FilterOrders/FilterOrders.component'
 import {ScaleLoader} from 'react-spinners';
 import Table from '../../components/Table/Table.component'
+import InputField from '../../components/InputField/InputField.component'
 const override =`
   width: 875px;
   margin-top: 30px;
@@ -107,7 +108,7 @@ export default function Partener(props) {
   if(ordersDisplayData.length) {
     ordersDisplayData.forEach(el => totalOrderCost +=parseFloat(el.order_total))  
   }
-  console.log('ordersDisplayData', ordersDisplayData)
+  
 
   return (
     <div className="dashboard">
@@ -165,6 +166,14 @@ export default function Partener(props) {
               <div className="partner-dets">
                 <UserDetails onChange={props.onChange} uDets={props.pData} />
                 <PartnerDetails onChange={props.onChange} uDets={props.pData} />
+                {props.currentUserType === 1 ?
+                <div className="partner-details">
+                  <p>Detalii comenzi</p> 
+                  <InputField onChange={props.onChange} name="partner_percent" value={props.pData.partner_percent} type="text" label="adaos" color={'#1D3557'} inputBackground={'#FFD185'} labelColor={'#1D3557'}/>
+                </div>
+                :
+                null
+                }
               </div>
               <SaveButton btnType={'submit'} btnDisabled={props.loading} text={'save'} bgcolor={'#06D6A0'} color={'#1D3557'}/>
             </form>
