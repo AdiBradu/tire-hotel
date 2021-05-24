@@ -3,8 +3,6 @@ import './HealthScore.component.scss'
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
-
-
 const green = "#06D6A0"
 const orange = "#FF9E00"
 const red = "#E63946"
