@@ -25,6 +25,7 @@ import AgentiContainer from '../pages/Agenti/Agenti.container'
 import AddAgentContainer from '../pages/AddAgent/AddAgent.container'
 import AgentContainer from '../pages/Agent/Agent.container'
 import FleetEditContainer from '../pages/FleetEdit/FleetEdit.container'
+import VehicleDetailsContainer from '../pages/VehicleDetails/VehicleDetails.container'
 
 export default function Admin() {
   const { currentUser } = useAuth()
@@ -164,6 +165,11 @@ export default function Admin() {
               path="/dashboard/flote/anvelope/:fId"
               exact
               component={TiresContainer}
+            /> 
+            <PrivateRoute
+              path="/dashboard/fisa_auto/:vId"
+              exact
+              component={VehicleDetailsContainer}
             /> 
             <PrivateRoute
               path="*"

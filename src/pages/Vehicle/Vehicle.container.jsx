@@ -85,7 +85,7 @@ export default function VehicleContainer() {
     else
     {      
       if(changedField === 'regNumber') {
-        newVData[changedField] = changedValue.replace(/[^\w]+/gi, "")
+        newVData[changedField] = changedValue.toUpperCase().replace(/[^0-9A-Z]+/gi, "")
       } else if(changedField === 'vechicleMilage') {
         newVData[changedField] = changedValue.replace(/[^0-9]+/gi, "")
       } else {

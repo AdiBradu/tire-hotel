@@ -68,7 +68,12 @@ export default function FisaAutoContainer() {
     setDisableSubmitBtn(true)    
     let tiresUpdateDone = selectedServices.filter(item => item.s_id === 'tire_upd')
     let kmUpdateDone = selectedServices.filter(item=> item.s_id === 'km_upd')
-    if(tiresUpdateDone.length < 1 || kmUpdateDone.length < 1) {
+    let chargeableServices = selectedServices.filter(item=> (item.s_id !== 'km_upd' && item.s_id !== 'tire_upd'))
+  
+    if(chargeableServices.length < 1) {
+      setError("Minim un serviciu facturabil este obligatoriu")
+      setDisableSubmitBtn(false)
+    } else if(tiresUpdateDone.length < 1 || kmUpdateDone.length < 1) {
       setError("UPDATE KM si UPDATE ANVELOPE sunt obligatorii")
       setDisableSubmitBtn(false)
     } else {

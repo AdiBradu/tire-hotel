@@ -166,10 +166,14 @@ export default function FleetEdit(props) {
               <div className="fleet-dets">
                 <UserDetails onChange={props.onChange} uDets={props.fData} />
                 <FleetDetails onChange={props.onChange} uDets={props.fData} />
+                {props.currentUserType === 1 ?
                 <div className="fleet-details">
                   <p>Detalii comenzi</p> 
                   <InputField onChange={props.onChange} name="fleet_percent" value={props.fData.fleet_percent} type="text" label="adaos" color={'#1D3557'} inputBackground={'#FFD185'} labelColor={'#1D3557'}/>
                 </div>
+                :
+                null
+                }
               </div>
               <SaveButton btnType={'submit'} btnDisabled={props.loading} text={'save'} bgcolor={'#06D6A0'} color={'#1D3557'}/>
             </form>

@@ -42,8 +42,8 @@ export default function TireDetails(props) {
   } 
 
   let treadUsageOpts = []
-  for(let i=0;i < 12;i += 0.5) {
-    treadUsageOpts.push(i.toFixed(1)) 
+  for(let i=0;i <= 12;i += 0.5) {
+    treadUsageOpts.push(parseFloat(i.toFixed(1)).toString()) 
   }
 
   let brandOpts = []
@@ -58,9 +58,13 @@ export default function TireDetails(props) {
   
   return (
     <div className="vehicle-wrapper">
+      {!props.updateTiresService ? 
       <div className="filter-tab active">
           <Filter name={'Nr roti'} onFilterChange={props.handleTiresFilterChange} filterInfo={tiresFilterInfo} currentFilter={props.tireFilter} />
       </div>
+      :
+      null
+      }
       <CheckBox name={"prefill"} checked={props.prefill} onChange={props.updatePrefillStatus} />  
       <div className="vehicle-tires">    
         <div className="tire-details">
@@ -174,7 +178,8 @@ export default function TireDetails(props) {
             </div>}
           </div>
           </div>
-        </div>  
+        </div>
+        {!props.updateTiresService ?   
         <div className="tire-details">
           <p>Detalii identificare auto</p>
           <SectionSubTitle text="" data="" name=""/>
@@ -186,6 +191,9 @@ export default function TireDetails(props) {
             <InputField onChange={props.onChange} name="vechicleMilage" value={props.vData.vechicleMilage} type="text" label="km" color={'#1D3557'} inputBackground={'#FFD185'} labelColor={'#1D3557'}/>
           </div>
         </div>
+        :
+        null
+        }
       </div> 
     </div>      
   )

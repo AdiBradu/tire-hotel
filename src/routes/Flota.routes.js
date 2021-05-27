@@ -14,6 +14,7 @@ import MyAccountFleetContainer from '../pages/MyAccount/MyAccountFleet.container
 import VehicleBulkContainer from '../pages/VehicleBulk/VehicleBulk.container'
 import ComenziFlotaContainer from '../pages/Comenzi/ComenziFlota.container'
 import ComandaFlotaContainer from '../pages/Comanda/ComandaFlota.container'
+import VehicleDetailsFleetContainer from '../pages/VehicleDetails/VehicleDetailsFleet.container'
 
 export default function Flota() {
   
@@ -93,6 +94,11 @@ export default function Flota() {
               exact
               component={TiresContainer}
             />   
+            <PrivateRoute
+              path="/dashboard/fisa_auto/:vId"
+              exact
+              component={VehicleDetailsFleetContainer}
+            /> 
             <PrivateRoute
               path="*"
               component={ErrrorPage}

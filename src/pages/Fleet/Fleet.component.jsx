@@ -126,6 +126,7 @@ export default function Flote(props) {
           tableSecondaryClass={"table-layout"}
           renderArr={[1,2,3,4,5]}
           actionsArr={actionsArr}
+          linkTo={`/dashboard/fisa_auto`}
         />
         :        
         <ScaleLoader 

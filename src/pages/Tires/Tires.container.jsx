@@ -31,6 +31,8 @@ export default function TiresContainer() {
 	const [tiresDotFilterValues, setTiresDotFilterValues] = useState(null)
 	const [tiresTreadUsageFilter, setTiresTreadUsageFilter] = useState("")
 	const [tiresTreadUsageFilterValues, setTiresTreadUsageFilterValues] = useState(null)
+  const [tiresTreadUsageMmFilterValues, setTiresTreadUsageMmFilterValues] = useState(null)
+  const [tiresTreadUsageMmFilter, setTiresTreadUsageMmFilter] = useState("")
 	const [vehicleTypeFilter, setVehicleTypeFilter] = useState("")
 	const [tiresVehicleTypeFilterValues, setTiresVehicleTypeFilterValues] = useState(null)
 	const [fleetTiresList, setFleetTiresList] = useState(null)
@@ -75,6 +77,7 @@ export default function TiresContainer() {
 				let brands = []
 				let vehicleTypes = []
 				let treadUsages = []
+        let treadUsagesMm = []
 				let dots = []
 				response.data.forEach((el) => {
 					if (widths.indexOf(el.width) === -1) widths.push(el.width)
@@ -84,6 +87,7 @@ export default function TiresContainer() {
 					if (brands.indexOf(el.brand) === -1) brands.push(el.brand)
 					if (vehicleTypes.indexOf(el.vehicle_type) === -1) vehicleTypes.push(el.vehicle_type)
 					if (treadUsages.indexOf(el.tread_wear) === -1) treadUsages.push(el.tread_wear)
+          if (treadUsagesMm.indexOf(el.tire_tread_wear) === -1) treadUsagesMm.push(el.tire_tread_wear) 
 					if (dots.indexOf(el.tire_dot) === -1) dots.push(el.tire_dot)
 				})
 				setTiresWidthFilterValues(widths.sort())
@@ -93,6 +97,7 @@ export default function TiresContainer() {
 				setTiresBrandFilterValues(brands.sort())
 				setTiresVehicleTypeFilterValues(vehicleTypes.sort())
 				setTiresTreadUsageFilterValues(treadUsages.sort())
+        setTiresTreadUsageMmFilterValues(treadUsagesMm.sort())
 				setTiresDotFilterValues(dots.sort())
 			}
 			setShowSpinner(false);
@@ -146,6 +151,10 @@ export default function TiresContainer() {
 		setTiresTreadUsageFilter(newFilter)
 	}
 
+  const handleTreadUsageMmFilterChange = (newFilter) => {
+		setTiresTreadUsageMmFilter(newFilter)
+	}
+
 	return !loading ? (
 		<Tires
 			fleetData={fleetData}
@@ -174,6 +183,9 @@ export default function TiresContainer() {
 			vehicleTypeFilter={vehicleTypeFilter}
 			handleVehicleTypeFilterChange={handleVehicleTypeFilterChange}
 			tiresVehicleTypeFilterValues={tiresVehicleTypeFilterValues}
+      tiresTreadUsageMmFilter={tiresTreadUsageMmFilter}
+      handleTreadUsageMmFilterChange={handleTreadUsageMmFilterChange}
+      tiresTreadUsageMmFilterValues={tiresTreadUsageMmFilterValues}
 			showSpinner={showSpinner}
 		/>
 	) : (

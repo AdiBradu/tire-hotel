@@ -22,6 +22,7 @@ import ParteneriBulkContainer from '../pages/ParteneriBulk/ParteneriBulk.contain
 import ComenziAgentContainer from '../pages/Comenzi/ComenziAgent.container'
 import ComandaAgentContainer from '../pages/Comanda/ComandaAgent.container'
 import FleetEditContainer from '../pages/FleetEdit/FleetEdit.container'
+import VehicleDetailsContainer from '../pages/VehicleDetails/VehicleDetails.container'
 
 export default function Agent() {
   const { currentUser } = useAuth()
@@ -137,6 +138,11 @@ export default function Agent() {
               path="/dashboard/flote/anvelope/:fId"
               exact
               component={TiresContainer}
+            /> 
+            <PrivateRoute
+              path="/dashboard/fisa_auto/:vId"
+              exact
+              component={VehicleDetailsContainer}
             /> 
             <PrivateRoute
               path="*"

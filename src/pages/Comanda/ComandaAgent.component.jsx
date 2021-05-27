@@ -16,8 +16,8 @@ const override =`
   justify-content: center;    
   border-color: red;
 `
-export default function Comanda(props) {
-  const tblHeaderKeys = ["nr. crt.", "serviciu", "cost"]  
+export default function ComandaAgent(props) {
+  const tblHeaderKeys = ["nr. crt.", "serviciu", "cost partener", "cost flota", "partener", "flota"]  
  
   return (
     <div className="dashboard">
@@ -41,12 +41,16 @@ export default function Comanda(props) {
           <Table 
             tblHeader={tblHeaderKeys}
             tblBody={props.orderDisplayData.order_details}           
-            tableMainClass={"table-order-details"}
-            tableSecondaryClass={"table-order-details-layout"}
-            renderArr={[1,2]}
+            tableMainClass={"table-admin-order-details"}
+            tableSecondaryClass={"table-admin-order-details-layout"}
+            renderArr={[1,2,3,5,6]}
           />           
           <TableTitle 
-            text={`Total: ${parseFloat(props.orderDisplayData.order_total.toFixed(2))} Lei`}          
+            text={`Total partener: ${parseFloat(props.orderDisplayData.order_total.toFixed(2))} Lei`}          
+            dataSet={[]}
+          />
+          <TableTitle 
+            text={`Total flota: ${parseFloat(props.orderDisplayData.order_total_fleet.toFixed(2))} Lei`}          
             dataSet={[]}
           />
           </>

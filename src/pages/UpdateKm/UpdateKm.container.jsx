@@ -34,7 +34,7 @@ export default function UpdateKmContainer() {
 
   const onKmChange = (changedField, changedValue) => {
     const newVData = {...vData}    
-    newVData[changedField] = changedValue
+    newVData[changedField] = changedValue.replace(/[^0-9]+/gi, "")
     setVData(newVData)
   }
 

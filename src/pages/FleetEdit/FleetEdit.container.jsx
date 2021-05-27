@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import api from '../../utils/Api'
 import debounce from 'lodash.debounce'
 import FleetEdit from './FleetEdit.component'
+import { useAuth } from '../../contexts/AuthContext'
 
 export default function FleetEditContainer() {
   
@@ -13,6 +14,7 @@ export default function FleetEditContainer() {
   const { fId } = useParams()
   const [timePeriodFilter, setTimePeriodFilter] = useState("")  
   const [orders, setOrders] = useState([])
+  const { currentUser } = useAuth() 
   const [fData, setFData] = useState({
     email: '',
     first_name: '',
@@ -81,21 +83,38 @@ export default function FleetEditContainer() {
     let mounted = true;
     if(mounted) {
       loadFleetInfo(fId).then(res => {
-        setFData({
-          email: res.data.email,
-          first_name: res.data.first_name,
-          last_name: res.data.last_name,
-          phone: res.data.phone,
-          password: '',
-          confirm_password: '',
-          fleet_name: res.data.fleet_name,
-          fleet_gov_id: res.data.fleet_gov_id,
-          fleet_j: res.data.fleet_j,
-          fleet_address: res.data.fleet_address,
-          fleet_region: res.data.fleet_region,
-          fleet_city: res.data.fleet_city,
-          fleet_percent: parseFloat(res.data.fleet_percent.toFixed(2)).toString()
-        })
+        if(currentUser.user_type === 1) {
+          setFData({
+            email: res.data.email,
+            first_name: res.data.first_name,
+            last_name: res.data.last_name,
+            phone: res.data.phone,
+            password: '',
+            confirm_password: '',
+            fleet_name: res.data.fleet_name,
+            fleet_gov_id: res.data.fleet_gov_id,
+            fleet_j: res.data.fleet_j,
+            fleet_address: res.data.fleet_address,
+            fleet_region: res.data.fleet_region,
+            fleet_city: res.data.fleet_city,
+            fleet_percent: parseFloat(res.data.fleet_percent.toFixed(2)).toString()
+          })
+        } else { 
+          setFData({
+            email: res.data.email,
+            first_name: res.data.first_name,
+            last_name: res.data.last_name,
+            phone: res.data.phone,
+            password: '',
+            confirm_password: '',
+            fleet_name: res.data.fleet_name,
+            fleet_gov_id: res.data.fleet_gov_id,
+            fleet_j: res.data.fleet_j,
+            fleet_address: res.data.fleet_address,
+            fleet_region: res.data.fleet_region,
+            fleet_city: res.data.fleet_city
+          })
+        }
         setLoading(false)
       })
       refreshOrders()
@@ -162,5 +181,6 @@ export default function FleetEditContainer() {
           timePeriodFilter={timePeriodFilter}
           handleTimePeriodFilterChange={handleTimePeriodFilterChange}      
           showSpinner={showSpinner}
+          currentUserType={currentUser.user_type}
           />)
 }

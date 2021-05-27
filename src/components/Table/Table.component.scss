@@ -23,7 +23,7 @@
       width: 100%;
       height: auto;
       display: grid;
-      grid-template-columns: repeat(4, 90px) 110px 130px 90px 100px 80px 80px 80px;
+      grid-template-columns: repeat(4, 90px) 110px 130px 90px 100px 80px 80px 120px 80px;
       grid-template-rows: repeat(1, 1fr);
       grid-column-gap: 16px;
       grid-row-gap: 16px;
@@ -88,6 +88,23 @@
 }
 
 
+.table-admin-orders{
+  width: 100%;
+  overflow-x: auto;
+  flex-shrink: 0;
+  .table-admin-orders-layout{
+      width: 100%;
+      height: auto;
+      display: grid;
+      grid-template-columns: 80px 100px 180px 120px 220px 170px 220px 120px;
+      grid-template-rows: repeat(1, 1fr);
+      grid-column-gap: 16px;
+      grid-row-gap: 16px;
+      text-transform: capitalize;
+      text-align: left;
+  }     
+}
+
 .table-orders{
   width: 100%;
   overflow-x: auto;
@@ -122,6 +139,22 @@
   }     
 }
 
+.table-admin-order-details{
+  width: 100%;
+  overflow-x: auto;
+  flex-shrink: 0;
+  .table-admin-order-details-layout{
+      width: 100%;
+      height: auto;
+      display: grid;
+      grid-template-columns: 80px 350px 180px 180px 180px 180px;
+      grid-template-rows: repeat(1, 1fr);
+      grid-column-gap: 16px;
+      grid-row-gap: 16px;
+      text-transform: capitalize;
+      text-align: left;
+  }     
+}
 
 .agent-table{
   width: 100%;
@@ -138,4 +171,39 @@
       text-transform: capitalize;
       text-align: left;
   }     
+}
+
+
+.table-vehicle-dets{
+  width: 100%;
+  overflow-x: auto;
+  flex-shrink: 0;
+  .table-vehicle-dets-layout{
+      width: 100%;
+      height: auto;
+      display: grid;
+      grid-template-columns: 70px 175px 110px 110px 90px 130px 160px 90px 80px 80px 135px;
+      grid-template-rows: repeat(1, 1fr);
+      grid-column-gap: 16px;
+      grid-row-gap: 16px;
+      text-transform: capitalize;
+      text-align: left;
+  }    
+}
+
+.table-vehicle-admin-order-dets{
+  width: 100%;
+  overflow-x: auto;
+  flex-shrink: 0;
+  .table-vehicle-admin-order-dets-layout{
+      width: 100%;
+      height: auto;
+      display: grid;
+      grid-template-columns: 70px 175px 150px 150px 150px;
+      grid-template-rows: repeat(1, 1fr);
+      grid-column-gap: 16px;
+      grid-row-gap: 16px;
+      text-transform: capitalize;
+      text-align: left;
+  }    
 }

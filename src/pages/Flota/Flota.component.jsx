@@ -124,6 +124,7 @@ export default function Flota(props) {
           tableSecondaryClass={"table-layout"}
           renderArr={[1,2,3,4,5]}
           actionsArr={actionsArr}
+          linkTo={`/dashboard/fisa_auto`}
         />
         :        
         <ScaleLoader 

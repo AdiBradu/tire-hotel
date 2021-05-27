@@ -18,7 +18,11 @@ export default function ComandaPartnerContainer() {
         }
       })         
       if(response.data) {
-        setOrder(response.data)        
+        let orderInfo = response.data
+        orderInfo.order_details.forEach(o => {
+          o.order_detail_cost = parseFloat(o.order_detail_cost.toFixed(2))
+        }) 
+        setOrder(orderInfo)    
       }
       setShowSpinner(false)
       setLoading(false)

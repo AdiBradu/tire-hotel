@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import api from '../../utils/Api'
 import debounce from 'lodash.debounce'
 import { useParams } from 'react-router-dom'
-import Comanda from './Comanda.component'
+import ComandaAgent from './ComandaAgent.component'
 
 export default function ComandaAgentContainer() {
   const [loading, setLoading] = useState(true)  
@@ -18,7 +18,14 @@ export default function ComandaAgentContainer() {
         }
       })         
       if(response.data) {
-        setOrder(response.data)        
+        let orderInfo = response.data        
+        orderInfo.order_details.forEach(o => {
+          o.order_detail_cost = parseFloat(o.order_detail_cost.toFixed(2))
+          o.order_detail_cost_fleet = parseFloat(o.order_detail_cost_fleet.toFixed(2))
+          o.partner_name = orderInfo.partner_name
+          o.fleet_name = orderInfo.fleet_name
+        }) 
+        setOrder(orderInfo)          
       }
       setShowSpinner(false)
       setLoading(false)
@@ -37,7 +44,7 @@ export default function ComandaAgentContainer() {
   },[])
  
   return (!loading ? 
-    <Comanda
+    <ComandaAgent
       orderDisplayData={order}      
       showSpinner={showSpinner}
      />

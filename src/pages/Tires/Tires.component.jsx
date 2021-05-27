@@ -18,7 +18,7 @@ const override =`
   border-color: red;
 `;
 export default function Tires(props) {
-  const tblHeaderKeys = ["nr. crt.", "latime", "inaltime", "diametru", "ind. viteza", "ind. sarcina", "sezon", "brand", "tip auto", "uzura", "DOT"]
+  const tblHeaderKeys = ["nr. crt.", "latime", "inaltime", "diametru", "ind. viteza", "ind. sarcina", "sezon", "brand", "tip auto", "uzura", "uzura (mm)", "DOT"]
   const [showFilters, setShowFilters] = useState(false)   
   const filtersList = [
     {
@@ -64,6 +64,12 @@ export default function Tires(props) {
       currentFilter: props.tiresTreadUsageFilter   
     },
     {
+      onFilterChange: props.handleTreadUsageMmFilterChange,
+      name: "uzura (mm)",
+      filterInfo: props.tiresTreadUsageMmFilterValues,
+      currentFilter: props.tiresTreadUsageMmFilter   
+    },
+    {
       onFilterChange: props.handleDotFilterChange,
       name: "DOT",
       filterInfo: props.tiresDotFilterValues,
@@ -95,6 +101,9 @@ export default function Tires(props) {
   if(props.tiresTreadUsageFilter) {
     fleetDisplayData = fleetDisplayData.filter(item => item.tread_wear.toLowerCase() === props.tiresTreadUsageFilter.toLowerCase())
   }
+  if(props.tiresTreadUsageMmFilter) {
+    fleetDisplayData = fleetDisplayData.filter(item => parseFloat(item.tire_tread_wear) === parseFloat(props.tiresTreadUsageMmFilter))
+  }
   if(props.tiresDotFilter) {
     fleetDisplayData = fleetDisplayData.filter(item => item.tire_dot.toLowerCase() === props.tiresDotFilter.toLowerCase())
   }
@@ -113,6 +122,7 @@ export default function Tires(props) {
           {title: "Brand", style: {font: {sz: "14", bold: true}}},
           {title: "Tip auto", style: {font: {sz: "14", bold: true}}},
           {title: "Uzura", style: {font: {sz: "14", bold: true}}},
+          {title: "Uzura (mm)", style: {font: {sz: "14", bold: true}}},
           {title: "DOT", style: {font: {sz: "14", bold: true}}}
 
         ],
@@ -126,6 +136,7 @@ export default function Tires(props) {
           {value: data.brand, style: {font: {sz: "12"}}},
           {value: data.vehicle_type, style: {font: {sz: "12"}}},
           {value: data.tread_wear, style: {font: {sz: "12"}}},
+          {value: data.tire_tread_wear, style: {font: {sz: "12"}}},
           {value: data.tire_dot, style: {font: {sz: "12"}}}
         ])
       }
@@ -176,7 +187,7 @@ export default function Tires(props) {
           tblBody={fleetDisplayData}     
           tableMainClass={"table-tires"}
           tableSecondaryClass={"table-tires-layout"}
-          renderArr={[1,2,3,4,5,6,7,8,9,10]}    
+          renderArr={[1,2,3,4,5,6,7,8,9,10,11]}    
         />
         :        
         <ScaleLoader 

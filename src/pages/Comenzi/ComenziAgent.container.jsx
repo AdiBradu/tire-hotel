@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import api from '../../utils/Api'
 import debounce from 'lodash.debounce'
-import ComenziPartner from './ComenziPartner.component'
+import Comenzi from './Comenzi.component'
 
 export default function ComenziAgentContainer() {
   const [loading, setLoading] = useState(true)  
@@ -25,6 +25,7 @@ export default function ComenziAgentContainer() {
           
           let newO = {so_id,formattedDate,...restOfO}
           newO.order_total = parseFloat(newO.order_total.toFixed(2))
+          newO.order_total_fleet = parseFloat(newO.order_total_fleet.toFixed(2))
           return newO
         })
         setOrders(formattedOrders)        
@@ -55,7 +56,7 @@ export default function ComenziAgentContainer() {
   }
   
   return (!loading ? 
-    <ComenziPartner 
+    <Comenzi 
       orders={orders}
       search={search}
       handleSearchChange={handleSearchChange}

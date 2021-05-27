@@ -1,52 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import './Filter.component.scss'
 import FilterLogo from '../../assets/downArrow.png'
+import '../SelectField/SelectField.component.scss'
 
 export default function Filter(props) {
 
-    const [active, setActive] = useState(false)
-    const [option, setOption] = useState(props.name)
-
-    useEffect(() => {
-      let mounted = true
-      if(mounted) {        
-        if(props.currentFilter !== "" && props.currentFilter !== null && props.currentFilter !== undefined) {
-         setOption(props.currentFilter)
-        }
-      }
-      return () => mounted=false
-    },[])
-
-    const handleOption = value => () => {
-        setOption(value)
-        props.onFilterChange(value)
-    }
-
-    let options
-
-    if(active){
-        options =  
-        <div className="filter-options" onClick={ () => setActive(false)}>
-            <p className="first"onClick={handleOption("")}>{props.name}</p>
-            {
-                props.filterInfo.map( el => 
-                    <div className="filter-option"  key={Math.random()} data-name={el} onClick={handleOption(el)}>
-                        <p>{el}</p>
-                    </div>
-                )
-            }
-        </div>
-    }
-
     return (
-        <div className="combo-select">
-            <div className="filter" onClick={() => setActive(!active)}>
-                <div className="filter-header">
-                    <div><img src={FilterLogo} alt=""/></div>
-                    <p className="selected">{option !== "" & option !== null & option !== undefined ? option : props.name}</p>
-                </div>
-            </div>
-            {options}
-        </div>
+      <div className="select-field">
+        <label htmlFor={props.type} style={{color: props.labelColor}}>{props.label}</label>
+        <select 
+          name={props.name} 
+          value={props.currentFilter}         
+          onChange={(e) => props.onFilterChange(e.target.value)} 
+          style={{ backgroundColor: "#FFD185", color: "#1D3557", width: (props.width ? props.width : "")}}>
+              <option key={"noVal"} value="">{props.name}</option>
+            {props.filterInfo ? 
+              props.filterInfo.map( (o, index) => 
+              <option key={index} value={o}>{o}</option>
+            )
+            :
+            null
+            }
+        </select>
+      </div>
     )
 }
