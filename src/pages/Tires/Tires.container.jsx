@@ -68,7 +68,8 @@ export default function TiresContainer() {
 					fleet_id: fleet_id,
 				},
 			})
-			setFleetTiresList(response.data);
+      let fleetTiresList = []
+			
 			if (response?.data?.length) {
 				let widths = []
 				let heights = []
@@ -89,6 +90,7 @@ export default function TiresContainer() {
 					if (treadUsages.indexOf(el.tread_wear) === -1) treadUsages.push(el.tread_wear)
           if (treadUsagesMm.indexOf(el.tire_tread_wear) === -1) treadUsagesMm.push(el.tire_tread_wear) 
 					if (dots.indexOf(el.tire_dot) === -1) dots.push(el.tire_dot)
+          fleetTiresList.push({t_id: el.t_id, width: el.width, height: el.height, diameter: el.diameter, speed_index: el.speed_index, load_index: el.load_index, tire_season: el.tire_season, brand: el.brand, vehicle_type: el.vehicle_type, tread_wear: el.tread_wear, tire_tread_wear: el.tire_tread_wear.toFixed(2), tire_dot: el.tire_dot})
 				})
 				setTiresWidthFilterValues(widths.sort())
 				setTiresHeightFilterValues(heights.sort())
@@ -99,8 +101,10 @@ export default function TiresContainer() {
 				setTiresTreadUsageFilterValues(treadUsages.sort())
         setTiresTreadUsageMmFilterValues(treadUsagesMm.sort())
 				setTiresDotFilterValues(dots.sort())
+        setFleetTiresList(fleetTiresList)
 			}
-			setShowSpinner(false);
+      
+			setShowSpinner(false)
 		} catch (error) {
 			setFleetTiresList([]);
 			setShowSpinner(false);

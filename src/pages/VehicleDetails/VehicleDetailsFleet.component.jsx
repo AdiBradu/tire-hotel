@@ -20,7 +20,7 @@ export default function VehicleDetailsFleet(props) {
   let tiresDisplayData = []
   if(props.vehicleTires) {
     for (const [i, el] of props.vehicleTires.entries()) { 
-      let tireRow = [el.t_id,tirePositions[i], el.width+"/"+el.height+"/"+el.diameter, el.speed_index+" "+el.load_index, el.tire_season, el.brand, el.tire_model, el.vehicle_type, el.tire_dot, el.tire_tread_wear]
+      let tireRow = [el.t_id,tirePositions[i], el.width+"/"+el.height+"/"+el.diameter, el.speed_index+" "+el.load_index, el.tire_season, el.brand, el.tire_model, el.vehicle_type, el.tire_dot, el.tire_tread_wear.toFixed(2)]
       tiresDisplayData.push(tireRow)
     }
   }
