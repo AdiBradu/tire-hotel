@@ -1,0 +1,60 @@
+.map-content{
+    position: absolute;
+    box-shadow: 0px 6px 12px 3px rgba(0, 0, 0, 0.15);
+    border-radius: 1rem;
+    gap: 1em;
+    padding: 1em;
+    background-color: hsl(215, 50%, 23%);
+    display: flex;
+    flex-direction: column;
+    color: white;
+    z-index: 100;
+    @media (orientation: landscape) {
+        top: 0;
+        right: 0;
+    }
+    @media (orientation: portrait) {
+        position: relative;
+        top: 0;
+        right: 0;
+    }
+    .card-header{
+        width: 100%;
+        display: inline-flex;
+        gap: 2rem;
+        h4{
+            margin-right: auto;
+            text-align: left;
+            white-space: nowrap;
+        }
+        h1{
+            white-space: nowrap;
+            color: #FF9E00;
+        }
+    }
+    .card-body{
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        gap: 0.25rem;
+        columns: 2;
+        p{
+            font-size: smaller;
+            display: inline-flex;
+            white-space: nowrap;
+            &:first-of-type{
+                color: #FF9E00;
+                margin-bottom: 0.5rem;
+                font-size: medium;
+            }
+        }
+    }
+}
+.blur-bg{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: hsla(0, 0%, 100%, 0.514);
+    filter: blur(4rem);
+    z-index: 11;
+}

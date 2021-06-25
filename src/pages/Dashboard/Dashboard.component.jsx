@@ -25,7 +25,7 @@ export default function Dashboard() {
         <div className="dashboard">
                 <Navigation/>
                 <div className="workspace">
-                    <ServiceList/>
+                    {/* <ServiceList/> */}
                     {/* <ReturnSearchAuto text="B123WTS a fost gasit." action="start service" bgcolor={"#06D6A0"} color="#1D3557"/> */}
                     {/* <ReturnSearchAuto text="B123WTS nu a fost gasit." action="cauta din nou" bgcolor={"#FF9E00"} color="#1D3557"/> */}
                     {/* <SearchAuto/> */}

@@ -37,7 +37,7 @@
             }
             svg{
                 fill: #F1FAEE;
-                height: 20px;
+                height: 1.25rem;
                 width: auto;
             }
         }
@@ -47,11 +47,8 @@
         margin-left: auto;
         margin-bottom: auto;
         @media (min-width: 990px) {
-            margin: 0;
-            // margin-top: auto;
-        }
-        svg{
-            fill: #1D3557;
+            margin-left: 0;
+            margin-right: auto;
         }
     }
 }

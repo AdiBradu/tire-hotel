@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react'
 import './Navigation.component.scss'
 import SideMenu from '../../components/SideMenu/SideMenu.component'
 import { ReactComponent as Toggler } from './navToggler.svg'
+import { ReactComponent as Back } from './backArrow.svg'
 import { ReactComponent as Logo } from '../../assets/LogoHotelulderoti.svg'
 
 export default function Navigation() {
@@ -17,16 +18,27 @@ export default function Navigation() {
         </div>
     }
 
+    let toggler
+
+    if(showMenu){
+        toggler =
+        <Back id="navToggler" onClick={() => setShowMenu(!showMenu)}/>
+    } else {
+        toggler =
+        <Toggler id="navToggler" onClick={() => setShowMenu(!showMenu)}/>
+    }
+
     return (
         <div className="navbar">
             <nav className="navigation">
                 <div className="toggler">
-                    <Toggler id="navToggler" onClick={() => setShowMenu(!showMenu)}/>
+                    {toggler}
+                    {/* <Toggler id="navToggler" onClick={() => setShowMenu(!showMenu)}/> */}
                 </div>
                 {menu}
             </nav>
             <div className="logo">
-                <Logo style={ showMenu ? {width:"80px", height:"auto"} : {width:"40px", height:"auto"}}/>
+                <Logo style={ showMenu ? {display:"none"} : {width:"2.5rem", height:"auto"}}/>
             </div>
         
         </div>

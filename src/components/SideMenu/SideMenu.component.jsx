@@ -9,6 +9,8 @@ import { ReactComponent as OrderLogo } from '../../assets/order.svg';
 import { ReactComponent as TyreLogo } from '../../assets/tyre.svg';
 import { ReactComponent as LogoutLogo } from '../../assets/logout.svg';
 import { ReactComponent as Logo } from '../../assets/LogoHotelulderoti.svg';
+import { ReactComponent as AdminLogo } from '../../assets/admin.svg';
+import { ReactComponent as HotelLogo } from '../../assets/hotel.svg'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 
@@ -33,6 +35,15 @@ export default function SideMenu() {
           <div className="menu-link">
             <AccountLogo/>
             <p>Contul meu</p>
+          </div>
+        </Link>
+
+        <Link
+        to={{pathname:`/dashboard/cont`}}
+        >
+          <div className="menu-link">
+            <AdminLogo/>
+            <p>Admin</p>
           </div>
         </Link>
 
@@ -96,6 +107,15 @@ export default function SideMenu() {
           </div>
         </Link>
         )}
+
+        <Link
+        to={{pathname:`/dashboard/cont`}}
+        >
+          <div className="menu-link">
+            <HotelLogo/>
+            <p>Hotel</p>
+          </div>
+        </Link>
 
         <Link
         to={{pathname:`/logout`}}
