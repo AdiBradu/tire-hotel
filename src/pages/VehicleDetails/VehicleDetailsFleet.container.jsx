@@ -5,7 +5,9 @@ import VehicleDetailsFleet from './VehicleDetailsFleet.component'
 
 export default function VehicleDetailsFleetContainer() {
   const [loading, setLoading] = useState(true)
+  const [vehicleHotel, setVehicleHotel] = useState(null) 
   const [vehicleTires, setVehicleTires] = useState(null)  
+  const [vehicleHotelTires, setVehicleHotelTires] = useState(null)  
   const [vData, setVData] = useState(null)
   const [orders, setOrders] = useState([])
   const { vId } = useParams()
@@ -66,6 +68,32 @@ export default function VehicleDetailsFleetContainer() {
     }  
   }
 
+  const loadVehicleHotelTires = async vehicleId => {    
+    try {        
+      const response = await api.get(`/hotelTires/getVehicleTires`, {
+        params: {
+          v_id: vehicleId
+        }
+      })      
+      setVehicleHotelTires(response.data)      
+    } catch (error) {      
+      setVehicleHotelTires(null)
+    }  
+  }
+
+  const loadVehicleHotel = async vehicleId => {    
+    try {        
+      const response = await api.get(`/hotelTires/getHotelByVehicle`, {
+        params: {
+          v_id: vehicleId
+        }
+      })      
+      setVehicleHotel(response.data)      
+    } catch (error) {      
+      setVehicleHotel(null)
+    }  
+  }
+
   useEffect(() => {
     let mounted  = true
     if(mounted) {           
@@ -74,6 +102,11 @@ export default function VehicleDetailsFleetContainer() {
         return await loadVehicleTires(vId)
       }
       getCurrentVehicleTires()
+      const getCurrentVehicleHotelTires = async () => {
+        return await loadVehicleHotelTires(vId)
+      }
+      getCurrentVehicleHotelTires()
+      loadVehicleHotel(vId)
       loadVehicleInfo(vId).then(res => {
         setVData(res.data)
         setLoading(false)
@@ -92,7 +125,9 @@ export default function VehicleDetailsFleetContainer() {
     vehicle_type={vData.vehicleType}
     vehicle_tire_count={vData.vehicle_tire_count}
     vehicleTires={vehicleTires}
+    vehicleHotelTires={vehicleHotelTires}
     editActionHandler={editHandler}
+    vehicleHotel={vehicleHotel}
     orders={orders}
    />
   )

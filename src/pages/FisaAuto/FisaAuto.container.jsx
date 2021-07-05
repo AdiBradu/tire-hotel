@@ -29,8 +29,10 @@ export default function FisaAutoContainer() {
       })      
       setVehicleTires(response.data)
       sessionStorage.setItem('vehicleTires', JSON.stringify(response.data))
+      sessionStorage.setItem('oldVehicleTires', JSON.stringify(response.data))
     } catch (error) {
       sessionStorage.removeItem('vehicleTires')
+      sessionStorage.removeItem('oldVehicleTires')
       setVehicleTires(null)
     }  
   }
@@ -56,9 +58,31 @@ export default function FisaAutoContainer() {
   const serviceDeleteActionHandler = e => {    
     let sId = e.target.attributes.data.value   
     if(sId) {
-      let newServices = selectedServices.filter(item => item.s_id !== sId)     
+      //let newServices = selectedServices.filter(item => item.s_id !== sId)     
+      let newServices = []
+      let serviceAlreadyRemoved = false
+      for (const [index, el] of selectedServices.entries()) {  
+        if(el.s_id !== sId || serviceAlreadyRemoved){
+          newServices.push(el)
+        }
+        if(el.s_id === sId && !serviceAlreadyRemoved) {
+          serviceAlreadyRemoved = true          
+        }
+      }
+      
       sessionStorage.setItem('services', JSON.stringify(newServices))
-      let newAdditionalServices = additionalServices.filter(item => item.service_name !== sId)
+      //let newAdditionalServices = additionalServices.filter(item => item.service_name !== sId)
+      let newAdditionalServices = []
+      let addServiceAlreadyRemoved = false
+      for (const [index, el] of additionalServices.entries()) {  
+        if(el.service_name !== sId || addServiceAlreadyRemoved){
+          newAdditionalServices.push(el)
+        }
+        if(el.service_name === sId && !addServiceAlreadyRemoved) {
+          addServiceAlreadyRemoved = true          
+        }
+      }
+      
       setSelectedServices(newServices)
       sessionStorage.setItem('additionalServices',  JSON.stringify(newAdditionalServices))
     }

@@ -8,6 +8,7 @@ import './VehicleDetails.component.scss'
 
 export default function VehicleDetailsFleet(props) {
   const tblTiresHeaderKeys = ["Nr. Crt.", "Pozitionare", "Dimensiuni", "Ind. viteza si sarcina", "Sezon", "Brand", "Model", "Tip auto", "DOT", "Uzura", "Actiuni"]
+  const tblHotelTiresHeaderKeys = ["Nr. Crt.", "Pozitionare", "Dimensiuni", "Ind. viteza si sarcina", "Sezon", "Brand", "Model", "Tip auto", "DOT", "Uzura"]
   const tblServicesHeaderKeys = ["Nr. Crt.", "Data", "KM", "Cost"]
   const tirePositions = ["fata/dreapta","fata/stanga","spate/dreapta","spate/stanga","spate/exterior/dreapta","spate/exterior/stanga"]
   const actionsArr = [
@@ -23,6 +24,13 @@ export default function VehicleDetailsFleet(props) {
       let tireRow = [el.t_id,tirePositions[i], el.width+"/"+el.height+"/"+el.diameter, el.speed_index+" "+el.load_index, el.tire_season, el.brand, el.tire_model, el.vehicle_type, el.tire_dot, el.tire_tread_wear.toFixed(2)]
       tiresDisplayData.push(tireRow)
     }
+  }
+  let hotelTiresDisplayData = []
+  if(props.vehicleHotelTires) {
+    for (const [i, el] of props.vehicleHotelTires.entries()) { 
+      let tireRow = [el.t_id,tirePositions[i], el.width+"/"+el.height+"/"+el.diameter, el.speed_index+" "+el.load_index, el.tire_season, el.brand, el.tire_model, el.vehicle_type, el.tire_dot, el.tire_tread_wear.toFixed(2)]
+      hotelTiresDisplayData.push(tireRow)
+    }  
   }
   let today = new Date();
   let d = today.getDate();
@@ -59,7 +67,24 @@ export default function VehicleDetailsFleet(props) {
           tableSecondaryClass={"table-vehicle-dets-layout"}
           renderArr={[1,2,3,4,5,6,7,8,9]}
           actionsArr={actionsArr}
-        />      
+        />  
+        { hotelTiresDisplayData.length 
+          ?
+          <>
+          <SectionSubTitle
+            text={`Anvelope depozitate in hotel: ${props.vehicleHotel}`}
+          /> 
+          <Table
+            tblHeader={tblHotelTiresHeaderKeys}
+            tblBody={hotelTiresDisplayData}
+            tableMainClass={"table-vehicle-dets"}
+            tableSecondaryClass={"table-vehicle-dets-layout"}
+            renderArr={[1,2,3,4,5,6,7,8,9]}          
+          />
+          </>  
+          :
+          null
+        }    
         <SectionSubTitle
           text={"Portofoliu comenzi"}
         /> 

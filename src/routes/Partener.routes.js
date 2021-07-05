@@ -13,6 +13,8 @@ import UpdateTiresContainer from '../pages/UpdateTires/UpdateTires.container'
 import AddOtherServicesContainer from '../pages/AddOtherServices/AddOtherServices.container'
 import ComenziPartnerContainer from '../pages/Comenzi/ComenziPartner.container'
 import ComandaPartnerContainer from '../pages/Comanda/ComandaPartener.container'
+import HotelPartnerContainer from '../pages/Hotel/HotelPartner.container'
+import CereriPartnerContainer from '../pages/Cereri/CereriPartener.container'
 
 export default function Partener() {
   const { currentUser } = useAuth()
@@ -85,6 +87,16 @@ export default function Partener() {
               exact
               component={ComandaPartnerContainer}
             />
+            <PrivateRoute
+                path="/dashboard/hotel"
+                exact 
+                component={HotelPartnerContainer}
+            /> 
+             <PrivateRoute
+                path="/dashboard/cereri"
+                exact 
+                component={CereriPartnerContainer}
+            /> 
             <PrivateRoute
               path="*"
               component={ErrrorPage}

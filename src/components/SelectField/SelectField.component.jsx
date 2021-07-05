@@ -11,7 +11,7 @@ export default function SelectField(props) {
             onChange={(e) => props.onChange(e.target.name, e.target.value)} 
             style={{ backgroundColor: props.inputBackground, color: props.color, width: (props.width ? props.width : "")}}>
               {props.fieldOptions.map( (o, index) => 
-                <option key={index} value={props.optTextEqualsValue ? o : index+1}>{o}</option>
+                <option key={index} value={props.optTextEqualsValue ? o : (props.customValue ? o.val : index+1)}>{props.customValue ? o.text : o}</option>
               )}
             </select>
         </div>

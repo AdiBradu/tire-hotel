@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import Vehicle from './Vehicle.component'
+import HotelVehicle from './HotelVehicle.component'
 import { useParams, useHistory } from 'react-router-dom'
 import api from '../../utils/Api'
 
-export default function VehicleContainer() {
+export default function HotelVehicleContainer() {
   
   const [error, setError] = useState("")
   const [success, setSuccess] = useState("")
@@ -13,8 +13,6 @@ export default function VehicleContainer() {
   const [prefill, setPrefill] = useState(false) 
   const [tireFilter, setTireFilter] = useState("")
   const [vehicleTireCount, setVehicleTireCount] = useState(4) 
-  const [multipleTireSets, setMultipleTireSets] = useState("")
-  const [vehicleTireSetsCount, setVehicleTireSetsCount] = useState(1)
   const history = useHistory()
   const { fleetId } = useParams()
 
@@ -27,7 +25,7 @@ export default function VehicleContainer() {
       return error;
     }   
   }
-  
+
   /* Load available tire hotels list */
   const loadHotelsList = async () => {
     try {        
@@ -37,12 +35,8 @@ export default function VehicleContainer() {
       return error;
     }   
   }
-
+  
   const handleVehicleCreation = async newVehicleData => {
-    return api.post('/vehicles/', newVehicleData)
-  }
-
-  const handleHotelVehicleCreation = async newVehicleData => {
     return api.post('/hotelTires/', newVehicleData)
   }
 
@@ -62,29 +56,6 @@ export default function VehicleContainer() {
   },[])
   
   const [vData, setVData] = useState({
-    fleetId: fleetId,
-    regNumber : '',
-    vehicle_tire_count: 4,
-    vechicleBrand: '',
-    vechicleModel: '',
-    vehicleType:  'TURISM',
-    vechicleMilage : '',
-    vehicleTires: {
-      widths: ["1","1","1","1","1","1"], 
-      heights: ["1","1","1","1","1","1"], 
-      diameters: ["1","1","1","1","1","1"], 
-      speedIndexes: ["1","1","1","1","1","1"], 
-      loadIndexes: ["1","1","1","1","1","1"], 
-      brands: ["1","1","1","1","1","1"], 
-      models: ["","","","","",""],
-      seasons: ["Iarna","Iarna","Iarna","Iarna","Iarna","Iarna"],
-      dots: ["","","","","",""],
-      rims: ["1","1","1","1","1","1"], 
-      treadUsages: ["0.0","0.0","0.0","0.0","0.0","0.0"]
-    }
-  })
-
-  const [hData, setHData] = useState({
     fleetId: fleetId,
     regNumber : '',
     vehicle_tire_count: 4,    
@@ -114,14 +85,9 @@ export default function VehicleContainer() {
     {
       let tireAttr = changedField.split('_')      
       if(prefill) {
-        const newHData = {...hData}         
         for(let i=0;i<vehicleTireCount;i+=1){
           newVData['vehicleTires'][tireAttr[0]][i] = changedValue
-          
-          newHData['vehicleTires'][tireAttr[0]][i] = changedValue
-          
         }
-        setHData(newHData) 
       } else {
         newVData['vehicleTires'][tireAttr[0]][tireAttr[1]] = changedValue
       }
@@ -130,10 +96,7 @@ export default function VehicleContainer() {
     else
     {      
       if(changedField === 'regNumber') {
-        newVData[changedField] = changedValue.toUpperCase().replace(/[^0-9A-Z]+/gi, "")        
-        const newHData = {...hData}
-        newHData[changedField] = changedValue.toUpperCase().replace(/[^0-9A-Z]+/gi, "")
-        setHData(newHData)          
+        newVData[changedField] = changedValue.toUpperCase().replace(/[^0-9A-Z]+/gi, "")
       } else if(changedField === 'vechicleMilage') {
         newVData[changedField] = changedValue.replace(/[^0-9]+/gi, "")
       } else {
@@ -143,54 +106,16 @@ export default function VehicleContainer() {
     }
 
   }
-
-  function updateHData(changedField, changedValue) {
-    const newHData = {...hData}
-    if (changedField.indexOf('_') > -1)
-    {      
-      let tireAttr = changedField.split('_')      
-      if(prefill) {
-        const newVData = {...vData}
-        for(let i=0;i<vehicleTireCount;i+=1){
-          newHData['vehicleTires'][tireAttr[0]][i] = changedValue
-          if(tireAttr[0] !== 'hotelId') {            
-            newVData['vehicleTires'][tireAttr[0]][i] = changedValue              
-          }
-        }
-        setVData(newVData)
-      } else {
-        newHData['vehicleTires'][tireAttr[0]][tireAttr[1]] = changedValue
-      }
-      setHData(newHData)
-    }
-  }
  
   async function handleSubmit(e) {
     e.preventDefault()    
     let vehiclePostData = vData
-    let vehicleHotelPostData = hData
     
     if(vData.regNumber === "") {
       setError("Nr. Inmatriculare este obligatoriu")
       setLoading(false)
       return false
     }
-    if(vData.vechicleBrand === "") {
-      setError("Marca vehiculului este obligatorie")
-      setLoading(false)
-      return false
-    }
-    if(vData.vechicleModel === "") {
-      setError("Modelul vehiculului este obligatoriu")
-      setLoading(false)
-      return false
-    }
-    if(vData.vechicleMilage === "") {
-      setError("KM vehiculului este obligatoriu")
-      setLoading(false)
-      return false
-    }
-
     let tireModelsErrors = false
     vData.vehicleTires.models.forEach((v, i) => {if(i <= vData.vehicle_tire_count-1 && v === "") tireModelsErrors=true})
     if(tireModelsErrors) {
@@ -206,39 +131,13 @@ export default function VehicleContainer() {
       setLoading(false)
       return false
     }
-    if(vehicleTireSetsCount === 2) {
-      let tireHModelsErrors = false
-      hData.vehicleTires.models.forEach((v, i) => {if(i <= hData.vehicle_tire_count-1 && v === "") tireHModelsErrors=true})
-      if(tireHModelsErrors) {
-        setError("Modelul este obligatoriu pentru toate anvelopele")
-        setLoading(false)
-        return false
-      } 
-      
-      let tireHDotsErrors = false
-      hData.vehicleTires.dots.forEach((v, i) => {if(i <= hData.vehicle_tire_count-1 && v === "") tireHDotsErrors=true})
-      if(tireHDotsErrors) {
-        setError("DOT este obligatoriu pentru toate anvelopele")
-        setLoading(false)
-        return false
-      }
-    }
-    
+  
     try {
       setError("")
       setSuccess("")
       setLoading(true)
       const response  = await handleVehicleCreation(vehiclePostData)    
-      if(response.status === 201) {
-        if(parseInt(vehicleTireSetsCount) === 2) {
-          const hotelResponse = await handleHotelVehicleCreation(vehicleHotelPostData)           
-          if(hotelResponse.status === 201) {
-            history.push(`/dashboard/flota/${fleetId}`)
-          }
-        } else {
-          history.push(`/dashboard/flota/${fleetId}`)  
-        }
-      }
+      if(response.status === 201) history.push(`/dashboard/flota/${fleetId}`)
     } catch(error) {
       
       if(error?.response?.data?.status < 500) {
@@ -248,10 +147,11 @@ export default function VehicleContainer() {
           setError(error?.response?.data?.message)
         }
       } else {
-        setError("Creare vehicul esuata")
+        setError("Creare hotel vehicul esuata")
       }
       setLoading(false)
-    }   
+
+    }
     
   }
   const handleTiresFilterChange = value => {
@@ -261,22 +161,12 @@ export default function VehicleContainer() {
     const newVData = {...vData}
     newVData['vehicle_tire_count'] = newTireCount
     setVData(newVData)
-    if(vehicleTireSetsCount === 2) {
-      const newHData = {...hData}
-      newHData['vehicle_tire_count'] = newTireCount
-      setHData(newHData)  
-    }
-  }
-  const handleTiresSetsChange = value => {
-    setMultipleTireSets(value)     
-    let newSetsCount = value ? value : 1
-    setVehicleTireSetsCount(newSetsCount)
+    
   }
 
   return (!loading ? 
-         <Vehicle 
+         <HotelVehicle 
           vData={vData}
-          hData={hData}
           error={error}
           success={success}
           loading={loading}
@@ -284,15 +174,11 @@ export default function VehicleContainer() {
           hotelsList={hotelsList}
           handleSubmit={handleSubmit}
           onChange={updateVData}
-          onHotelChange={updateHData}
           updatePrefillStatus={updatePrefillStatus}
           handleTiresFilterChange={handleTiresFilterChange}
           vehicleTireCount={vehicleTireCount}
           prefill={prefill}
           tireFilter={tireFilter}
-          multipleTireSets={multipleTireSets}
-          handleTiresSetsChange={handleTiresSetsChange}
-          vehicleTireSetsCount={vehicleTireSetsCount}
           />
           :
           null

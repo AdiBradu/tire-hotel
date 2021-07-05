@@ -38,14 +38,6 @@ export default function SideMenu() {
           </div>
         </Link>
 
-        <Link
-        to={{pathname:`/dashboard/cont`}}
-        >
-          <div className="menu-link">
-            <AdminLogo/>
-            <p>Admin</p>
-          </div>
-        </Link>
 
         {(currentUser.user_type === 1 &&
         <Link
@@ -58,6 +50,16 @@ export default function SideMenu() {
         </Link>
         )}
         {(currentUser.user_type < 3 &&
+        <Link
+        to={{pathname:`/dashboard/flote`}}
+        >
+          <div className="menu-link">
+            <FleetLogo/>
+            <p>Flote</p>
+          </div>
+        </Link>
+        )}
+        {(currentUser.user_type === 5 &&
         <Link
         to={{pathname:`/dashboard/flote`}}
         >
@@ -87,7 +89,7 @@ export default function SideMenu() {
           </div>
         </Link>
         )}
-       
+        {(currentUser.user_type < 5 &&
         <Link
         to={{pathname:`/dashboard/comenzi`}}
         >
@@ -96,7 +98,7 @@ export default function SideMenu() {
             <p>Comenzi</p>
           </div>
         </Link>
-       
+        )}
         {(currentUser.user_type < 4 && 
         <Link
         to={{pathname:`/dashboard/anvelope`}}
@@ -109,13 +111,24 @@ export default function SideMenu() {
         )}
 
         <Link
-        to={{pathname:`/dashboard/cont`}}
+        to={{pathname:`/dashboard/hotel`}}
         >
           <div className="menu-link">
             <HotelLogo/>
             <p>Hotel</p>
           </div>
         </Link>
+
+        {(currentUser.user_type !== 3 && 
+        <Link
+        to={{pathname:`/dashboard/cereri`}}
+        >
+          <div className="menu-link">
+            <AdminLogo/>
+            <p>Cereri</p>
+          </div>
+        </Link>
+        )}
 
         <Link
         to={{pathname:`/logout`}}

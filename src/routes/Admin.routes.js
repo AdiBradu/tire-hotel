@@ -26,6 +26,9 @@ import AddAgentContainer from '../pages/AddAgent/AddAgent.container'
 import AgentContainer from '../pages/Agent/Agent.container'
 import FleetEditContainer from '../pages/FleetEdit/FleetEdit.container'
 import VehicleDetailsContainer from '../pages/VehicleDetails/VehicleDetails.container'
+import HotelAdminContainer from '../pages/Hotel/HotelAdmin.container'
+import CereriContainer from '../pages/Cereri/Cereri.container'
+import CerereContainer from '../pages/Cerere/Cerere.container'
 
 export default function Admin() {
   const { currentUser } = useAuth()
@@ -170,6 +173,21 @@ export default function Admin() {
               path="/dashboard/fisa_auto/:vId"
               exact
               component={VehicleDetailsContainer}
+            /> 
+            <PrivateRoute
+                path="/dashboard/hotel"
+                exact 
+                component={HotelAdminContainer}
+            />   
+            <PrivateRoute
+                path="/dashboard/cereri"
+                exact 
+                component={CereriContainer}
+            /> 
+            <PrivateRoute
+                path="/dashboard/cerere/:rId"
+                exact 
+                component={CerereContainer}
             /> 
             <PrivateRoute
               path="*"

@@ -1,25 +1,12 @@
-import React, {useState, fragment} from 'react'
+import React, { useState } from 'react'
 import './MapInfo.component.scss'
 
 export default function MapInfo(props) {
 
-    const parteneri = [
-        { "nume": "Dinamic 92" },
-        { "nume": "Unix Tire" },
-        { "nume": "Auto Moldova" },
-        { "nume": "Dinamic 92" },
-        { "nume": "Unix Tire" },
-        { "nume": "Auto Moldova" },
-        { "nume": "Unix Tire" },
-        { "nume": "Auto Moldova" },
-        { "nume": "Dinamic 92" },
-        { "nume": "Unix Tire" },
-        { "nume": "Auto Moldova" },
-    ] 
-
+    const parteneri = props.partners    
     const [ showCard, setShowCard ] = useState(props.showInfo)
 
-    console.log("Showcard",showCard)
+    //console.log("Showcard",showCard)
 
     const handleCard = () => {
         setShowCard(false)
@@ -34,19 +21,19 @@ export default function MapInfo(props) {
             <div className="card-header">
                 <h4>{props.title}</h4>
                 <h1>{props.counter}</h1>
-            </div>
+            </div>          
             <div className="card-body" >
                 <p>Locatii hoteluri:</p>
-                {parteneri.map( partener => 
-                    <p>{partener.nume}</p>
+                {parteneri.map( (partener, index) => 
+                    <p key={index}>{partener.nume}</p>
                 )}
-            </div>
+            </div>          
         </div>
     }
     
     return (
-        <fragment>
+        <>
             {card}
-        </fragment>
+        </>
     )
 }

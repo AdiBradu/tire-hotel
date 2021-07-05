@@ -1,0 +1,20 @@
+import React from 'react'
+import './HotelVehicleBulk.component.scss'
+import '../Dashboard/Dashboard.component'
+import SectionTitle from '../../components/SectionTitle/SectionTitle.component'
+import Navigation from '../../components/Navigation/Navigation.component'
+import DragDrop from '../../components/DragDrop/DragDrop.component'
+
+
+export default function HotelVehicleBulk(props) {
+  
+  return (
+    <div className="dashboard">
+      <Navigation/>
+      <div className="workspace">
+        <SectionTitle text="Adauga vehicule" />  
+        <DragDrop handleFileUpload={props.handleFileUpload} />
+      </div>
+    </div>
+  )
+}

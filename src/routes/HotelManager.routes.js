@@ -4,38 +4,34 @@ import ErrrorPage from '../pages/ErrorPage/ErrrorPage.component'
 import PrivateRoute from './Private.routes'
 import Dashboard from '../pages/Dashboard/Dashboard.component'
 import Home from '../pages/Home/Home.component'
-import FlotaContainer from '../pages/Flota/Flota.container'
+import MyAccountContainer from '../pages/MyAccount/MyAccount.container'
 import Logout from '../utils/Logout'
 import { useAuth } from '../contexts/AuthContext'
-import VehicleEditContainer from '../pages/VehicleEdit/VehicleEdit.container'
-import TiresContainer from '../pages/Tires/Tires.container'
-import MyAccountFleetContainer from '../pages/MyAccount/MyAccountFleet.container'
-import VehicleBulkContainer from '../pages/VehicleBulk/VehicleBulk.container'
-import ComenziFlotaContainer from '../pages/Comenzi/ComenziFlota.container'
-import ComandaFlotaContainer from '../pages/Comanda/ComandaFlota.container'
-import VehicleDetailsFleetContainer from '../pages/VehicleDetails/VehicleDetailsFleet.container'
-import HotelFlotaContainer from '../pages/Hotel/HotelFlota.container'
-import VehicleContainer from '../pages/Vehicle/Vehicle.container'
+import HotelFleetsContainer from '../pages/HotelFleets/HotelFleets.container'
+import HotelFleetContainer from '../pages/HotelFleet/HotelFleet.container'
+import HotelVehicleContainer from '../pages/HotelVehicle/HotelVehicle.container'
+import HotelVehicleBulkContainer from '../pages/HotelVehicleBulk/HotelVehicleBulk.container'
+import HotelVehicleEditContainer from '../pages/HotelVehicleEdit/HotelVehicleEdit.container'
+import HotelAdminContainer from '../pages/Hotel/HotelAdmin.container'
+import CereriContainer from '../pages/Cereri/Cereri.container'
+import CerereContainer from '../pages/Cerere/Cerere.container'
 
-export default function Flota() {
-  
+export default function HotelManager() {
   const { currentUser } = useAuth()
   
-  return currentUser.user_type === 3 ? (
+  return currentUser.user_type === 5 ? (
     <Router>
       <div className="App">
           <Switch>
             <PrivateRoute
               exact
-              path="/"
-              
+              path="/"              
             >
               <Redirect to="/dashboard" />
             </PrivateRoute>
             <PrivateRoute
               exact
-              path="/auth"
-              
+              path="/auth"              
             >
               <Redirect to="/dashboard" />
             </PrivateRoute>
@@ -58,53 +54,48 @@ export default function Flota() {
             <PrivateRoute
               path="/dashboard/cont"
               exact
-              component={MyAccountFleetContainer}
+              component={MyAccountContainer}
             />
             <PrivateRoute
-              path="/dashboard/flota"
-              exact
-              component={FlotaContainer}
-            />
+                path="/dashboard/flote"
+                exact 
+                component={HotelFleetsContainer}
+            />   
+            <PrivateRoute
+                path="/dashboard/flota/:fleetId"
+                exact 
+                component={HotelFleetContainer}
+            />  
             <PrivateRoute
               path="/dashboard/flote/adauga/vehicul/:fleetId"
               exact
-              component={VehicleContainer}
+              component={HotelVehicleContainer}
             />
             <PrivateRoute
               path="/dashboard/flote/editeaza/vehicul/:vId"
               exact
-              component={VehicleEditContainer}
-            /> 
+              component={HotelVehicleEditContainer}
+            />              
             <PrivateRoute
               path="/dashboard/flote/adauga/bulk/:fleetId"
               exact
-              component={VehicleBulkContainer}
-            /> 
-            <PrivateRoute
-              path="/dashboard/comenzi"
-              exact
-              component={ComenziFlotaContainer}
-            />
-            <PrivateRoute
-              path="/dashboard/comenzi/detalii/:orderId"
-              exact
-              component={ComandaFlotaContainer}
-            />
-            <PrivateRoute
-              path="/dashboard/anvelope"
-              exact
-              component={TiresContainer}
-            />   
-            <PrivateRoute
-              path="/dashboard/fisa_auto/:vId"
-              exact
-              component={VehicleDetailsFleetContainer}
-            /> 
+              component={HotelVehicleBulkContainer}
+            />       
             <PrivateRoute
                 path="/dashboard/hotel"
                 exact 
-                component={HotelFlotaContainer}
-            />   
+                component={HotelAdminContainer}
+            />      
+            <PrivateRoute
+                path="/dashboard/cereri"
+                exact 
+                component={CereriContainer}
+            /> 
+            <PrivateRoute
+                path="/dashboard/cerere/:rId"
+                exact 
+                component={CerereContainer}
+            />
             <PrivateRoute
               path="*"
               component={ErrrorPage}

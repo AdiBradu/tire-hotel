@@ -1,0 +1,17 @@
+.add-request{
+  width: 100%;
+  height: auto;
+  overflow-x: scroll;
+  display: flex;
+  flex-shrink: 0;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: start;
+  @media (min-width: 768px) {
+      overflow-x:hidden;
+  }
+}
+
+.add-request>.primary-button{
+  margin-top: 20px;
+}

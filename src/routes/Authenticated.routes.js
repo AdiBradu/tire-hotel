@@ -5,6 +5,7 @@ import Admin from './Admin.routes'
 import Agent from './Agent.routes'
 import Flota from './Flota.routes'
 import Partener from './Partener.routes'
+import HotelManager from './HotelManager.routes'
 
 export default function AuthenticatedRoutes() {
   const { currentUser } = useAuth()
@@ -19,6 +20,8 @@ export default function AuthenticatedRoutes() {
         <Flota />)    
       || (currentUser.user_type === 4 && 
         <Partener />) 
+      || (currentUser.user_type === 5 && 
+        <HotelManager />) 
       ||
         <Redirect to="/" />
       }    
