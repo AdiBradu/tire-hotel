@@ -1,38 +1,30 @@
 import React, { useState } from 'react'
-import AddPartner from './AddPartner.component'
 import api from '../../utils/Api'
+import AddManager from './AddManager.component'
 
-export default function AddPartnerContainer() {
+export default function AddManagerContainer() {
   
   const [error, setError] = useState("")
   const [success, setSuccess] = useState("")
   const [loading, setLoading] = useState(false)
 
-  const [pData, setPData] = useState({
+  const [mData, setMData] = useState({
     email: '',
     first_name: '',
     last_name: '',
     phone: '',
     password: '',
-    confirm_password: '',
-    partner_name: '',
-    partner_gov_id: '',
-    partner_j: '',
-    partner_address: '',
-    partner_region: '',
-    partner_city: '',
-    partner_percent: '',
-    hotel_enabled: 0
+    confirm_password: ''
   })
 
-  const handlePartnerCreation = async newPartnerData => {
-    return api.post('/users/partner', newPartnerData)
+  const handleManagerCreation = async newManagerData => {
+    return api.post('/users/manager', newManagerData)
   }
 
-  function updatePData(changedField, changedValue){
-    const newPData = {...pData}
-    newPData[changedField] = changedValue
-    setPData(newPData)
+  function updateMData(changedField, changedValue){
+    const newMData = {...mData}
+    newMData[changedField] = changedValue
+    setMData(newMData)
   }
 
   async function handleSubmit(e) {
@@ -43,23 +35,15 @@ export default function AddPartnerContainer() {
       setError("")
       setSuccess("")
       setLoading(true)
-      const response  = await handlePartnerCreation(pData)
+      const response  = await handleManagerCreation(mData)
       if(response.status === 201) setSuccess(response.data)     
-      setPData({
+      setMData({
         email: '',
         first_name: '',
         last_name: '',
         phone: '',
         password: '',
-        confirm_password: '',
-        partner_name: '',
-        partner_gov_id: '',
-        partner_j: '',
-        partner_address: '',
-        partner_region: '',
-        partner_city: '',
-        partner_percent: '',
-        hotel_enabled: 0
+        confirm_password: ''
       })
       setLoading(false)
 
@@ -72,20 +56,19 @@ export default function AddPartnerContainer() {
           setError(error?.response?.data?.message)
         }
       } else {
-        setError("Creare partener esuata")
+        setError("Creare manager hotel esuata")
       }
       setLoading(false)
-
     }
     
   }
 
-  return <AddPartner 
-          pData={pData}
+  return <AddManager
+          mData={mData}
           error={error}
           success={success}
           loading={loading}
           handleSubmit={handleSubmit}
-          onChange={updatePData}
+          onChange={updateMData}
           />
 }

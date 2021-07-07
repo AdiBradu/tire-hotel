@@ -29,6 +29,9 @@ import VehicleDetailsContainer from '../pages/VehicleDetails/VehicleDetails.cont
 import HotelAdminContainer from '../pages/Hotel/HotelAdmin.container'
 import CereriContainer from '../pages/Cereri/Cereri.container'
 import CerereContainer from '../pages/Cerere/Cerere.container'
+import ManageriHotelContainer from '../pages/ManageriHotel/ManageriHotel.container'
+import AddManagerContainer from '../pages/AddManager/AddManager.container'
+import ManagerHotelContainer from '../pages/ManagerHotel/ManagerHotel.container'
 
 export default function Admin() {
   const { currentUser } = useAuth()
@@ -86,6 +89,21 @@ export default function Admin() {
               path="/dashboard/agent/:aId"
               exact
               component={AgentContainer}
+            />
+            <PrivateRoute
+              path="/dashboard/manageriHotel"
+              exact
+              component={ManageriHotelContainer}
+            />
+            <PrivateRoute
+              path="/dashboard/manageriHotel/adauga"
+              exact
+              component={AddManagerContainer}
+            />
+            <PrivateRoute
+              path="/dashboard/managerHotel/:mId"
+              exact
+              component={ManagerHotelContainer}
             />
             <PrivateRoute
                 path="/dashboard/flote"

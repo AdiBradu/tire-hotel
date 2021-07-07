@@ -17,7 +17,7 @@ const override =`
   border-color: red;
 `
 
-export default function Agenti(props) {
+export default function ManageriHotel(props) {
   const tblHeaderKeys = ["nr. crt.", "email", "nume", "prenume", "actiuni"]  
   const actionsArr = [
     {
@@ -32,10 +32,10 @@ export default function Agenti(props) {
     }
   ]
  
-  let agentsDisplayData = props.agents ? props.agents.slice() : [];
+  let manageriHotelDisplayData = props.manageriHotel ? props.manageriHotel.slice() : [];
   
   if(props.search){
-    agentsDisplayData = agentsDisplayData.filter(item => {
+    manageriHotelDisplayData = manageriHotelDisplayData.filter(item => {
       const query = props.search.toLowerCase();
       return (
         item.first_name.toLowerCase().indexOf(query) >= 0 ||
@@ -56,19 +56,19 @@ export default function Agenti(props) {
           searchBarVal={props.search} 
         />
         <div className="add-section">
-          <Link to="/dashboard/agenti/adauga">
-            <AddButton text={'adauga agent'} bgcolor={'#06D6A0'} color={'#1D3557'} weight={'600'} img={AddLogo}/>
+          <Link to="/dashboard/manageriHotel/adauga">
+            <AddButton text={'adauga manager hotel'} bgcolor={'#06D6A0'} color={'#1D3557'} weight={'600'} img={AddLogo}/>
           </Link>
         </div>
         <TableTitle 
-          text="Portofoliu agenti"          
+          text="Portofoliu manageri hotel"          
           dataSet={[]}
         />        
-        {agentsDisplayData.length ?
+        {manageriHotelDisplayData.length ?
 
           <Table
             tblHeader={tblHeaderKeys}
-            tblBody={agentsDisplayData}
+            tblBody={manageriHotelDisplayData}
             tableMainClass={"agent-table"}
             tableSecondaryClass={"agent-table-layout"}
             renderArr={[2,3,4]}

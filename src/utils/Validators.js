@@ -568,6 +568,8 @@ export const validateParteneriBulkImport = fileContents => {
         err = 'Eroare: oras lipsa partener linia ' + i; break;
       }
       let partnerPercent = (el[11] ? el[11] : "0");
+
+      let partnerHotel = (el[12] ? (el[12].toUpperCase() === "DA" ? "1" : "0"): "0")
       
       let newPartner = {
         email: el[2],
@@ -581,7 +583,8 @@ export const validateParteneriBulkImport = fileContents => {
         partner_address: el[8],
         partner_region: el[9],
         partner_city: el[10],
-        partner_percent: partnerPercent
+        partner_percent: partnerPercent,
+        hotel_enabled: partnerHotel
       }
       partnersList.push(newPartner)
     }

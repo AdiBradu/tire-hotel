@@ -13,6 +13,8 @@ import FilterOrders from '../../components/FilterOrders/FilterOrders.component'
 import {ScaleLoader} from 'react-spinners';
 import Table from '../../components/Table/Table.component'
 import InputField from '../../components/InputField/InputField.component'
+import SelectField from '../../components/SelectField/SelectField.component'
+
 const override =`
   width: 875px;
   margin-top: 30px;
@@ -108,8 +110,8 @@ export default function Partener(props) {
   if(ordersDisplayData.length) {
     ordersDisplayData.forEach(el => totalOrderCost +=parseFloat(el.order_total))  
   }
+  let hList = [{val: 0, text: 'NU'}, {val: 1, text: 'DA'}];
   
-
   return (
     <div className="dashboard">
       <Navigation/>
@@ -174,6 +176,10 @@ export default function Partener(props) {
                 :
                 null
                 }
+                <div className="partner-details">
+                  <p>Detalii Hotel</p>                 
+                  <SelectField onChange={props.onChange} name="hotel_enabled" value={props.pData.hotel_enabled} fieldOptions={hList} customValue={true} label="hotel" color={'#1D3557'} inputBackground={'#FFD185'} labelColor={'#1D3557'} />
+                </div>
               </div>
               <SaveButton btnType={'submit'} btnDisabled={props.loading} text={'save'} bgcolor={'#06D6A0'} color={'#1D3557'}/>
             </form>

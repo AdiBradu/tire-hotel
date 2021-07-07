@@ -108,6 +108,7 @@ export default function FisaAutoContainer() {
           sessionStorage.removeItem('availableServices')
           sessionStorage.removeItem('services')
           sessionStorage.removeItem('vehicleTires')
+          sessionStorage.removeItem('oldVehicleTires')
           sessionStorage.removeItem('vTiresData')
           sessionStorage.removeItem('updatedMilage')
           sessionStorage.removeItem('additionalServices')

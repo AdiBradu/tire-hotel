@@ -49,6 +49,18 @@ export default function SideMenu() {
           </div>
         </Link>
         )}
+
+        {(currentUser.user_type === 1 &&
+        <Link
+        to={{pathname:`/dashboard/manageriHotel`}}
+        >
+          <div className="menu-link">
+            <AgentLogo/>
+            <p>Manageri Hotel</p>
+          </div>
+        </Link>
+        )}
+
         {(currentUser.user_type < 3 &&
         <Link
         to={{pathname:`/dashboard/flote`}}

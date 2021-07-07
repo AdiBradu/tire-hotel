@@ -27,7 +27,8 @@ export default function PartnerContainer() {
     partner_j: '',
     partner_address: '',
     partner_region: '',
-    partner_city: ''
+    partner_city: '',
+    hotel_enabled: 0
   })
 
 
@@ -97,7 +98,8 @@ export default function PartnerContainer() {
             partner_address: res.data.partner_address,
             partner_region: res.data.partner_region,
             partner_city: res.data.partner_city,
-            partner_percent: parseFloat(res.data.partner_percent.toFixed(2)).toString()
+            partner_percent: parseFloat(res.data.partner_percent.toFixed(2)).toString(),
+            hotel_enabled: res.data.hotel_enabled
           })
         } else { 
           setPData({
@@ -112,7 +114,8 @@ export default function PartnerContainer() {
             partner_j: res.data.partner_j,
             partner_address: res.data.partner_address,
             partner_region: res.data.partner_region,
-            partner_city: res.data.partner_city
+            partner_city: res.data.partner_city,
+            hotel_enabled: res.data.hotel_enabled
           })  
         }
         setLoading(false)
