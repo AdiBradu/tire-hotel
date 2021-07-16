@@ -32,6 +32,9 @@ import CerereContainer from '../pages/Cerere/Cerere.container'
 import ManageriHotelContainer from '../pages/ManageriHotel/ManageriHotel.container'
 import AddManagerContainer from '../pages/AddManager/AddManager.container'
 import ManagerHotelContainer from '../pages/ManagerHotel/ManagerHotel.container'
+import ServiciiContainer from '../pages/Servicii/Servicii.container'
+import AddServiciuContainer from '../pages/AddServiciu/AddServiciu.container'
+import ServiciuContainer from '../pages/Serviciu/Serviciu.container'
 
 export default function Admin() {
   const { currentUser } = useAuth()
@@ -207,6 +210,22 @@ export default function Admin() {
                 exact 
                 component={CerereContainer}
             /> 
+            <PrivateRoute
+              path="/dashboard/servicii"
+              exact
+              component={ServiciiContainer}
+            />
+            <PrivateRoute
+              path="/dashboard/servicii/adauga"
+              exact
+              component={AddServiciuContainer}
+            />
+            
+            <PrivateRoute
+              path="/dashboard/serviciu/:sId"
+              exact
+              component={ServiciuContainer}
+            />
             <PrivateRoute
               path="*"
               component={ErrrorPage}

@@ -207,3 +207,20 @@
       text-align: left;
   }    
 }
+
+.services-table{
+  width: 100%;
+  overflow-x: auto;
+  flex-shrink: 0;
+  .services-table-layout{
+      width: 100%;
+      height: auto;
+      display: grid;
+      grid-template-columns: 80px 350px 150px 80px 135px 135px 135px;
+      grid-template-rows: repeat(1, 1fr);
+      grid-column-gap: 16px;
+      grid-row-gap: 16px;
+      text-transform: capitalize;
+      text-align: left;
+  }     
+}

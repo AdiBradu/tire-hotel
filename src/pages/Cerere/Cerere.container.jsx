@@ -78,7 +78,7 @@ export default function CerereContainer() {
     }   
 
   }
-  console.log('rData', rData)
+  
   return (!loading &&    
    <Cerere    
     rData={rData}

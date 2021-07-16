@@ -48,9 +48,21 @@ export default function AddServiceContainer() {
   const addAvailableService = e => {
     let sId = e.target.attributes.data_s_id.value
     let sName = e.target.attributes.data_s_name.value
-    if(sId) {
-      selectedServices.push({s_id: sId, service_name: sName})   
-      sessionStorage.setItem('services', JSON.stringify(selectedServices))
+    if(sId) {      
+      let sFullInfo = availableServices.filter(s => parseInt(s.sl_id) === parseInt(sId))
+      let canAddTheService = true
+      if(parseInt(sFullInfo[0].hotel_service) !== 0) {     
+        for (const [i, el] of selectedServices.entries()) { 
+          let srvcInfo = availableServices.filter(s => parseInt(s.sl_id) === parseInt(el.s_id))
+          if(parseInt(srvcInfo[0].hotel_service) !== 0) {
+            canAddTheService = false;break;  
+          }
+        }
+      }
+      if(canAddTheService) {
+        selectedServices.push({s_id: sId, service_name: sName})      
+        sessionStorage.setItem('services', JSON.stringify(selectedServices))
+      }
       history.push('/dashboard/fisa_auto')
     }
   }

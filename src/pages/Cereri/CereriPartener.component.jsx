@@ -19,7 +19,7 @@ const override =`
 export default function CereriPartner(props) {
   const tblHeaderKeys = ["nr. crt.", "nr. inmatriculare", "Tip cerere", "Status cerere"]
   const [showFilters, setShowFilters] = useState(false)
-  const reqTypeFilterInfo = ["Retragere", "Depozitare"]
+  const reqTypeFilterInfo = ["Retragere", "Depozitare hotel Dinamic 92", "Depozitare hotel propriu"]
   const reqStatusFilterInfo = ["In asteptare", "Aprobata", "Procesata"]
      
   const filtersList = [

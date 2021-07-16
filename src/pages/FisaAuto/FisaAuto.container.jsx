@@ -142,6 +142,8 @@ export default function FisaAutoContainer() {
     disableSubmitBtn={disableSubmitBtn}
     error={error}
     success={success}
+    updatedMilage={updatedMilage}
+    vData={vData}
 
    />
   )
