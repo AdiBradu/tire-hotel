@@ -27,6 +27,7 @@ export default function PartnerHomeContainer() {
       sessionStorage.removeItem('vTiresData')
       sessionStorage.removeItem('updatedMilage')
       sessionStorage.removeItem('additionalServices')      
+      sessionStorage.removeItem('vehicleHotelTires')
       setSearchCompleted(true)
     } catch (error) {
       sessionStorage.removeItem('vehicle')
@@ -37,6 +38,7 @@ export default function PartnerHomeContainer() {
       sessionStorage.removeItem('vTiresData')
       sessionStorage.removeItem('updatedMilage')
       sessionStorage.removeItem('additionalServices')
+      sessionStorage.removeItem('vehicleHotelTires')
       setVehicle(null)
       setSearchCompleted(true)
     }  
@@ -57,7 +59,8 @@ export default function PartnerHomeContainer() {
 
   const startServiceHandler = () => {
     if(vehicle) {
-      history.push(`/dashboard/adauga/serviciu`)
+      /* history.push(`/dashboard/adauga/serviciu`) */
+      history.push('/dashboard/fisa_auto')
     } else {
       setVehicle(null)
       setSearchCompleted(true)

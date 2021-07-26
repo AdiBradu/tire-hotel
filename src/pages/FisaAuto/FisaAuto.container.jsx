@@ -6,6 +6,7 @@ import FisaAuto from './FisaAuto.component'
 export default function FisaAutoContainer() {
   const [loading, setLoading] = useState(true)
   const [vehicleTires, setVehicleTires] = useState(JSON.parse(sessionStorage.getItem('vehicleTires')) || null)
+  const [vehicleHotelTires, setVehicleHotelTires] = useState(JSON.parse(sessionStorage.getItem('vehicleHotelTires')) || null)  
   const vData = JSON.parse(sessionStorage.getItem('vehicle'))
   const [selectedServices, setSelectedServices] = useState(JSON.parse(sessionStorage.getItem('services')) || [])
   const vTiresData = JSON.parse(sessionStorage.getItem('vTiresData'))
@@ -34,16 +35,30 @@ export default function FisaAutoContainer() {
       sessionStorage.removeItem('vehicleTires')
       sessionStorage.removeItem('oldVehicleTires')
       setVehicleTires(null)
-    }  
+    } 
+    
+    try {        
+      const res = await api.get(`/hotelTires/getVehicleTires`, {
+        params: {
+          v_id: vehicleId
+        }
+      })      
+      setVehicleHotelTires(res.data)   
+      sessionStorage.setItem('vehicleHotelTires', JSON.stringify(res.data))  
+    } catch (error) {      
+      sessionStorage.removeItem('vehicleHotelTires')
+      setVehicleHotelTires(null)
+    } 
+
   }
 
   useEffect(() => {
     let mounted  = true
     if(mounted) {
-      if(!vData || selectedServices.length < 1) {
+      if(!vData /* || selectedServices.length < 1 */) {
         history.push('/')
       } else {        
-        if(!vehicleTires) {
+        if(!vehicleTires) {         
           const getCurrentVehicleTires = async () => {
             return await loadVehicleTires(vData.v_id)
           }
@@ -112,6 +127,7 @@ export default function FisaAutoContainer() {
           sessionStorage.removeItem('vTiresData')
           sessionStorage.removeItem('updatedMilage')
           sessionStorage.removeItem('additionalServices')
+          sessionStorage.removeItem('vehicleHotelTires')
           history.push('/dashboard/comenzi')  
         }
       } catch(error) {
@@ -137,6 +153,7 @@ export default function FisaAutoContainer() {
     vehicle_type={vData.vehicle_type}
     vehicle_tire_count={vData.vehicle_tire_count}
     vehicleTires={vehicleTires}
+    vehicleHotelTires={vehicleHotelTires}
     deleteActionHandler={serviceDeleteActionHandler}
     completeOrder={completeOrder}
     disableSubmitBtn={disableSubmitBtn}
