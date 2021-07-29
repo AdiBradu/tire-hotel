@@ -1,5 +1,6 @@
 import React from 'react'
 import './Dashboard.component.scss'
+import WelcomeUser from '../../components/WelcomeUser/WelcomeUser.component'
 import SectionTitle from '../../components/SectionTitle/SectionTitle.component'
 import SectionSubTitle from '../../components/SectionSubTitle/SectionSubTitle.component'
 import FleetStats from '../../components/FleetStats/FleetStats.component'
@@ -25,6 +26,7 @@ export default function Dashboard() {
         <div className="dashboard">
                 <Navigation/>
                 <div className="workspace">
+                    {/* <WelcomeUser/> */}
                     {/* <ServiceList/> */}
                     {/* <ReturnSearchAuto text="B123WTS a fost gasit." action="start service" bgcolor={"#06D6A0"} color="#1D3557"/> */}
                     {/* <ReturnSearchAuto text="B123WTS nu a fost gasit." action="cauta din nou" bgcolor={"#FF9E00"} color="#1D3557"/> */}

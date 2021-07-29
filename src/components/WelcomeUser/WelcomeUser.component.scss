@@ -1,0 +1,20 @@
+.welcome-user{
+    position: absolute;
+    @media (orientation: portrait) and (max-width:480px){
+        width: calc(100% - 16px);
+    }
+    @media (orientation: portrait) and (min-width:481px){
+        width: calc(100% - 64px);
+    }
+    @media (orientation: landscape) {
+        width: calc(100% - 64px);
+    }
+    display: flex;
+    justify-content: flex-end;
+    span{
+        font-weight: bold;
+    }
+    p{
+        font-weight: b;
+    }
+}
