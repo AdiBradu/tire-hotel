@@ -11,6 +11,7 @@ import AddLogo from '../../assets/add.png'
 import Alert from '../../components/Alert/Alert.component'
 import jsPDF from "jspdf"
 import "jspdf-autotable"
+import { logoBase64 } from '../../utils/LogoBase64'
 
 export default function FisaAuto(props) {
   const tblTiresHeaderKeys = ["Nr. Crt.", "Pozitionare", "Dimensiuni", "Ind. viteza si sarcina", "Sezon", "Brand", "Model", "Tip auto", "DOT", "Uzura"]
@@ -63,8 +64,8 @@ export default function FisaAuto(props) {
     doc.setFont("helvetica","normal","normal")
     doc.setFontSize(9)
     doc.text(147, 10, 'Fisa nr. ...... din data de '+d+"/"+m+"/"+y)
-    doc.text('LOGO AICI', 15, 10)   
-    
+    //doc.text('LOGO AICI', 15, 10)   
+    doc.addImage(logoBase64,'JPEG',15,1,23,23,'LOGO','FAST',0)
     doc.setFontSize(14)
     doc.text(84, 20, 'FISA SERVICE')    
     

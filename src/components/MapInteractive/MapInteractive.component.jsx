@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useCallback} from 'react'
 import './MapIntereactive.component.scss'
 import Map from '../../components/Map/Map.component'
 import MapInfo from '../../components/MapInfo/MapInfo.component'
 import judete from '../../data/judete.json'
 import api from '../../utils/Api'
+import debounce from 'lodash.debounce'
 
 export default function MapInteractive() {
 
@@ -23,12 +24,16 @@ export default function MapInteractive() {
     const loadHotelsList = async region => {
       try {        
         const response = await api.get(`/hotelTires/getHotelListByRegion`, {params: {hRegion: region}})
-        return response;
+        /* return response; */
+        setPartners(response.data.hLocations)       
+        setCounter(response.data.hCounter)          
+        setLoading(false)
       } catch (error) {
         return error;
       }   
     }
 
+    const refresHotelsList = useCallback(debounce(loadHotelsList, 300), [])
     let name = 'Bucuresti'
 
     judete.forEach( judet => {
@@ -39,11 +44,12 @@ export default function MapInteractive() {
 
     useEffect(() => {
         setTitle(name)       
-        loadHotelsList(name).then(res => {
+        /* refresHotelsList(name).then(res => {
           setPartners(res.data.hLocations)       
           setCounter(res.data.hCounter)          
           setLoading(false)
-        }) 
+        })  */
+        refresHotelsList(name)
     }, [prefix,name])
 
     let cardInfo
