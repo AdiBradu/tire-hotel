@@ -84,8 +84,8 @@ export default function Cereri(props) {
         <Table 
           tblHeader={tblHeaderKeys}
           tblBody={reqDisplayData}
-          tableMainClass={"table"}
-          tableSecondaryClass={"table-layout"}
+          tableMainClass={"table-cereri"}
+          tableSecondaryClass={"table-layout-cereri"}
           renderArr={[1,2,3]}        
           linkTo={"/dashboard/cerere"} 
         />

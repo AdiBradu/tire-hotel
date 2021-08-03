@@ -16,12 +16,9 @@
         overflow-x: hidden;
         display: flex;
         flex-direction: column;
-        padding: 8px;
+        padding: 2vw;
         align-items: flex-start;
-        gap: 16px;
-        @media (min-width:768px) {
-            padding: 32px;
-        }
+        gap: 1rem;
         img.van{
             width: 90%;
             position: absolute;

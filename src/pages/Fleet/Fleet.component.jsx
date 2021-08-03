@@ -122,8 +122,8 @@ export default function Flote(props) {
         <Table 
           tblHeader={tblHeaderKeys}
           tblBody={fleetDisplayData}
-          tableMainClass={"table"}
-          tableSecondaryClass={"table-layout"}
+          tableMainClass={"table-flota"}
+          tableSecondaryClass={"table-layout-flota"}
           renderArr={[1,2,3,4,5]}
           actionsArr={actionsArr}
           linkTo={`/dashboard/fisa_auto`}

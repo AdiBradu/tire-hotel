@@ -9,17 +9,20 @@
         border: none;
         background-color: transparent;
         outline: none;
-        max-width: 100px;
+        width: 6rem;
         font-weight: 500;
-        @media (min-width:768px) {
-            max-width: 240px;
-        }
-        @media (min-width:1200px) {
-            max-width: 360px;
-        }
         &::placeholder{
             color: #1D3557;
             font-weight: 500;
+        }
+        &:focus{
+            width: 8rem;
+        }
+        @media (min-width:768px) {
+            width: 10REM;
+            &:focus{
+                width: 20rem;
+            }
         }
     }
 }

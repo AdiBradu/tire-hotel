@@ -1,21 +1,35 @@
 .primary-button{
     display: flex;
-    letter-spacing: 3%;
+    width: 100%;
+    margin-top: 0.5rem;
+    @media (orientation: portrait){
+        width: 100%;
+    }
+    @media (orientation: landscape){
+        width: 14rem;
+    }
+    @media (orientation: landscape) and (max-width:991px){
+        width: 100%;
+    }
     button{
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         width: 100%;
-        padding: 0.5rem 1rem;
+        padding: 0.75rem 1rem;
         border: none;
         border-radius: 5px;
         outline: none;
         text-transform: capitalize;
-        letter-spacing: 3%;
+        letter-spacing: 0.02rem;
         font-weight: 500;
         white-space: nowrap;
         &:hover{
             opacity: 0.8;
             cursor: pointer;
+        }
+        img{
+            margin-right: .5rem;
         }
     }
 }

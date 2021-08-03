@@ -3,15 +3,19 @@
   height: auto;
   overflow-x: scroll;
   display: flex;
+  flex-direction: column;
   flex-shrink: 0;
-  gap: 16px;
+  gap: 1rem;
   align-items: flex-start;
   justify-content: start;
   @media (min-width: 768px) {
-      overflow-x:hidden;
+    flex-direction: row;
+    overflow-x:hidden;
+    max-width: 24rem;
+    align-items: flex-end;
   }
 }
 
-.add-request>.primary-button{
-  margin-top: 20px;
-}
+// .add-request>.primary-button{
+//   margin-top: 20px;
+// }

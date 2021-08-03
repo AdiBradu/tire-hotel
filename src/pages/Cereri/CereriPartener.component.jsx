@@ -84,8 +84,8 @@ export default function CereriPartner(props) {
         <Table 
           tblHeader={tblHeaderKeys}
           tblBody={reqDisplayData}
-          tableMainClass={"table"}
-          tableSecondaryClass={"table-layout"}
+          tableMainClass={"table-cereri-partener"}
+          tableSecondaryClass={"table-layout-cereri-partener"}
           renderArr={[1,2,3]}         
         />
         :        

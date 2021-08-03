@@ -137,8 +137,8 @@ export default function Flote(props) {
             tblHeader={tblHeaderKeys}
             tblBody={fleetsDisplayData}
             linkTo={"/dashboard/flota"}
-            tableMainClass={"table"}
-            tableSecondaryClass={"table-layout"}
+            tableMainClass={"table-flote"}
+            tableSecondaryClass={"table-layout-flote"}
             renderArr={[1,2,3,4,8]}
             actionsArr={actionsArr}
           />

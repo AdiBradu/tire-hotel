@@ -5,4 +5,19 @@
     background-image: url('../../assets//mobility.jpg');
     background-position: center;
     background-size: cover;
+    .version{
+        position: absolute;
+        bottom: 4vh;
+        right: 4vh;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        svg{
+            width: 40px;
+        }
+        p{
+            color: rgb(241, 250, 238);
+            letter-spacing: 1px;
+        }
+    }
 }

@@ -4,7 +4,7 @@ import './TableHeader.component.scss'
 export default function TableHeader(props) {
     return (
         <div className="table-cell">
-            <h4>{props.data}</h4>
+            <p style={{fontWeight: 600}}>{props.data}</p>
         </div>
     )
 }

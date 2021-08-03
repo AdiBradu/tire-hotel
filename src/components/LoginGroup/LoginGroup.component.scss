@@ -1,10 +1,17 @@
 .loginGroup {
     position: absolute;
-    top: 40px;
-    right: 40px;
+    top: 4vh;
+    right: 4vh;
     display: flex;
     align-items: center;
     justify-content: center;
     width: auto;
     height: auto;
-  }
+    &:hover{
+        opacity: 0.8;
+    }
+    img{
+        height: 30px;
+        width: auto;
+    }
+}

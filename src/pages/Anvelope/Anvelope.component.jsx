@@ -108,8 +108,8 @@ export default function Anvelope(props) {
             tblHeader={tblHeaderKeys}
             tblBody={fleetsDisplayData}            
             linkTo={"/dashboard/flote/anvelope"}
-            tableMainClass={"table"}
-            tableSecondaryClass={"table-layout"}
+            tableMainClass={"table-anvelope"}
+            tableSecondaryClass={"table-layout-anvelope"}
             renderArr={[1,2,3,4,8]}
           />
         :         
