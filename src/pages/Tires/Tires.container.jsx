@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom"
 import Tires from "./Tires.component"
 import { ScaleLoader } from "react-spinners"
 import Navigation from "../../components/Navigation/Navigation.component"
+import fileSaver from 'file-saver'
 
 const override = `
   width: 100%;
@@ -39,6 +40,10 @@ export default function TiresContainer() {
 	const [fleetId, setFleetId] = useState(null)
 	const { fId } = useParams()
 	const [showSpinner, setShowSpinner] = useState(true)
+  const [totalTires, setTotalTires] = useState(0)
+  const [pageNumber, setPageNumber] = useState(0)
+  const itemsPerPage = 50
+  const [pageCount, setPageCount] = useState(0)
 
 	const loadSelfFleet = async () => {
 		try {
@@ -60,16 +65,40 @@ export default function TiresContainer() {
 			setFleetData([])
 		}
 	}
-
-	const loadFleetTires = async (fleet_id) => {
-		try {
-			const response = await api.get(`/tires/getFleetTires`, {
+  const getExportData = () => {
+    if(!showSpinner){
+      setShowSpinner(true)
+      api.get(`/tires/tiresToExcel`, {
+        responseType: 'arraybuffer',
+        params: {
+          fleet_id: fleetId,
+          totalTires: totalTires,
+          vehicleTypeFilter: vehicleTypeFilter,
+          tiresWidthFilter: tiresWidthFilter,
+          tiresHeightFilter: tiresHeightFilter,
+          tiresDiameterFilter: tiresDiameterFilter,
+          tiresBrandFilter: tiresBrandFilter,
+          tiresDotFilter: tiresDotFilter,
+          tiresSeasonFilter: tiresSeasonFilter,
+          tiresTreadUsageFilter: tiresTreadUsageFilter,
+          tiresTreadUsageMmFilter: tiresTreadUsageMmFilter
+        }
+      }).then(res => {
+        setShowSpinner(false)  
+        var blob = new Blob([res.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+        fileSaver.saveAs(blob, fleetData.fleet_name + '.xlsx')
+      }).catch(err => {
+        setShowSpinner(false)  
+      })         
+    }
+  }
+  const loadFleetTiresFilters = async fleet_id => {
+    try {
+			const response = await api.get(`/tires/getFleetTiresFilters`, {
 				params: {
-					fleet_id: fleet_id,
+					fleet_id: fleet_id          
 				},
 			})
-      let fleetTiresList = []
-			
 			if (response?.data?.length) {
 				let widths = []
 				let heights = []
@@ -79,7 +108,7 @@ export default function TiresContainer() {
 				let vehicleTypes = []
 				let treadUsages = []
         let treadUsagesMm = []
-				let dots = []
+				let dots = []      
 				response.data.forEach((el) => {
 					if (widths.indexOf(el.width) === -1) widths.push(el.width)
 					if (heights.indexOf(el.height) === -1) heights.push(el.height)
@@ -90,7 +119,6 @@ export default function TiresContainer() {
 					if (treadUsages.indexOf(el.tread_wear) === -1) treadUsages.push(el.tread_wear)
           if (treadUsagesMm.indexOf(el.tire_tread_wear) === -1) treadUsagesMm.push(el.tire_tread_wear) 
 					if (dots.indexOf(el.tire_dot) === -1) dots.push(el.tire_dot)
-          fleetTiresList.push({t_id: el.t_id, width: el.width, height: el.height, diameter: el.diameter, speed_index: el.speed_index, load_index: el.load_index, tire_season: el.tire_season, brand: el.brand, vehicle_type: el.vehicle_type, tread_wear: el.tread_wear, tire_tread_wear: el.tire_tread_wear.toFixed(2), tire_dot: el.tire_dot})
 				})
 				setTiresWidthFilterValues(widths.sort())
 				setTiresHeightFilterValues(heights.sort())
@@ -100,10 +128,44 @@ export default function TiresContainer() {
 				setTiresVehicleTypeFilterValues(vehicleTypes.sort())
 				setTiresTreadUsageFilterValues(treadUsages.sort())
         setTiresTreadUsageMmFilterValues(treadUsagesMm.sort())
-				setTiresDotFilterValues(dots.sort())
-        setFleetTiresList(fleetTiresList)
+				setTiresDotFilterValues(dots.sort())      
 			}
-      
+			
+		} catch (error) {			
+		}  
+  }
+	const loadFleetTires = async (fleet_id, pageNo, itemLimit, vehicleTypeFilter, tiresWidthFilter, tiresHeightFilter, tiresDiameterFilter, tiresBrandFilter, tiresDotFilter, tiresSeasonFilter, tiresTreadUsageFilter, tiresTreadUsageMmFilter) => {
+		try {
+			const response = await api.get(`/tires/getFleetTires`, {
+				params: {
+					fleet_id: fleet_id,
+          page: pageNo,
+          limit: itemLimit,
+          vehicleTypeFilter: vehicleTypeFilter,
+          tiresWidthFilter: tiresWidthFilter,
+          tiresHeightFilter: tiresHeightFilter,
+          tiresDiameterFilter: tiresDiameterFilter,
+          tiresBrandFilter: tiresBrandFilter,
+          tiresDotFilter: tiresDotFilter,
+          tiresSeasonFilter: tiresSeasonFilter,
+          tiresTreadUsageFilter: tiresTreadUsageFilter,
+          tiresTreadUsageMmFilter: tiresTreadUsageMmFilter
+				},
+			})
+      let fleetTiresList = []
+			
+			if (response?.data?.fleetTiresList?.length) {			
+				response.data.fleetTiresList.forEach((el) => {			
+          fleetTiresList.push({t_id: el.t_id, width: el.width, height: el.height, diameter: el.diameter, speed_index: el.speed_index, load_index: el.load_index, tire_season: el.tire_season, brand: el.brand, vehicle_type: el.vehicle_type, tread_wear: el.tread_wear, tire_tread_wear: el.tire_tread_wear.toFixed(2), tire_dot: el.tire_dot})
+				})		
+        setFleetTiresList(fleetTiresList)
+        setTotalTires(response.data.tireCount)
+        setPageCount(Math.ceil(response.data.tireCount / itemsPerPage))
+			} else {
+        setFleetTiresList(null)
+        setTotalTires(0)
+        setPageCount(0)
+      }
 			setShowSpinner(false)
 		} catch (error) {
 			setFleetTiresList([]);
@@ -114,50 +176,80 @@ export default function TiresContainer() {
 	useEffect(() => {
 		let mounted = true;
 		if (mounted) {
-			if (fId) {
-				loadFleet().then((res) => {
-					setLoading(false)
-					setFleetId(res)
-					loadFleetTires(res)
-				});
-			} else {
-				loadSelfFleet().then((res) => {
-					setLoading(false)
-					loadFleetTires(res)
-				})
-			}
+      if(!fleetTiresList) {
+        if (fId) {
+          loadFleet().then((res) => {
+           
+            
+            ( async () => {
+                await loadFleetTiresFilters(res)
+                await loadFleetTires(res, pageNumber, itemsPerPage, vehicleTypeFilter, tiresWidthFilter, tiresHeightFilter, tiresDiameterFilter, tiresBrandFilter, tiresDotFilter, tiresSeasonFilter, tiresTreadUsageFilter, tiresTreadUsageMmFilter)
+              }
+            )()
+            setFleetId(res)
+            setLoading(false)
+          });
+        } else {
+          loadSelfFleet().then((res) => {
+            setLoading(false)
+            ( async () => {
+                await loadFleetTiresFilters(res)
+                await loadFleetTires(res, pageNumber, itemsPerPage, vehicleTypeFilter, tiresWidthFilter, tiresHeightFilter, tiresDiameterFilter, tiresBrandFilter, tiresDotFilter, tiresSeasonFilter, tiresTreadUsageFilter, tiresTreadUsageMmFilter)
+              }
+            )()
+          })
+        }
+      } else {
+        
+        (async () => {
+          setShowSpinner(true)
+          await loadFleetTires(fleetId, pageNumber, itemsPerPage, vehicleTypeFilter, tiresWidthFilter, tiresHeightFilter, tiresDiameterFilter, tiresBrandFilter, tiresDotFilter, tiresSeasonFilter, tiresTreadUsageFilter, tiresTreadUsageMmFilter)
+        })()
+      }
 		}
 		return () => (mounted = false);
-	}, [])
+	}, [pageNumber, vehicleTypeFilter, tiresWidthFilter, tiresHeightFilter, tiresDiameterFilter, tiresBrandFilter, tiresDotFilter, tiresSeasonFilter, tiresTreadUsageFilter, tiresTreadUsageMmFilter])
 
 	const handleVehicleTypeFilterChange = (newFilter) => {
 		setVehicleTypeFilter(newFilter)
 	}
 	const handleWidthFilterChange = (newFilter) => {
+    setPageNumber(0)
 		setTiresWidthFilter(newFilter)
 	}
 	const handleHeightFilterChange = (newFilter) => {
+    setPageNumber(0)
 		setTiresHeightFilter(newFilter)
 	}
 	const handleDiameterFilterChange = (newFilter) => {
+    setPageNumber(0)
 		setTiresDiameterFilter(newFilter)
 	}
 	const handleBrandFilterChange = (newFilter) => {
+    setPageNumber(0)
 		setTiresBrandFilter(newFilter)
 	}
 	const handleDotFilterChange = (newFilter) => {
+    setPageNumber(0)
 		setTiresDotFilter(newFilter)
 	}
 	const handleSeasonFilterChange = (newFilter) => {
+    setPageNumber(0)
 		setTiresSeasonFilter(newFilter)
 	}
 	const handleTreadUsageFilterChange = (newFilter) => {
+    setPageNumber(0)
 		setTiresTreadUsageFilter(newFilter)
 	}
 
   const handleTreadUsageMmFilterChange = (newFilter) => {
+    setPageNumber(0)
 		setTiresTreadUsageMmFilter(newFilter)
 	}
+
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  }
 
 	return !loading ? (
 		<Tires
@@ -191,6 +283,12 @@ export default function TiresContainer() {
       handleTreadUsageMmFilterChange={handleTreadUsageMmFilterChange}
       tiresTreadUsageMmFilterValues={tiresTreadUsageMmFilterValues}
 			showSpinner={showSpinner}
+      pageCount={pageCount}
+      changePage={changePage}
+      pageNumber={pageNumber}
+      itemsPerPage={itemsPerPage}
+      getExportData={getExportData}    
+      totalTires={totalTires} 
 		/>
 	) : (
 		<div className="dashboard">

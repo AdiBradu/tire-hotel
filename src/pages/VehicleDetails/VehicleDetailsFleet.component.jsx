@@ -5,7 +5,18 @@ import SectionSubTitle from '../../components/SectionSubTitle/SectionSubTitle.co
 import SectionTitle from '../../components/SectionTitle/SectionTitle.component'
 import Table from '../../components/Table/Table.component'
 import './VehicleDetails.component.scss'
+import './VehicleDetails.component.scss'
+import {ScaleLoader} from 'react-spinners'
+import ReactPaginate from "react-paginate"
 
+const override =`
+  width: 875px;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;    
+  border-color: red;
+`;
 export default function VehicleDetailsFleet(props) {
   const tblTiresHeaderKeys = ["Nr. Crt.", "Pozitionare", "Dimensiuni", "Ind. viteza si sarcina", "Sezon", "Brand", "Model", "Tip auto", "DOT", "Uzura", "Actiuni"]
   const tblHotelTiresHeaderKeys = ["Nr. Crt.", "Pozitionare", "Dimensiuni", "Ind. viteza si sarcina", "Sezon", "Brand", "Model", "Tip auto", "DOT", "Uzura"]
@@ -88,14 +99,54 @@ export default function VehicleDetailsFleet(props) {
         <SectionSubTitle
           text={"Portofoliu comenzi"}
         /> 
-        <Table
-          tblHeader={tblServicesHeaderKeys}
-          tblBody={ordersDisplayData}
-          tableMainClass={"table-vehicle-admin-order-dets"}
-          tableSecondaryClass={"table-vehicle-admin-order-dets-layout"}
-          renderArr={[1,2,3]}
-          linkTo={`/dashboard/comenzi/detalii`}
-        />      
+        {!props.showSpinner && ordersDisplayData.length ? 
+          <>
+          <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            pageCount={props.pageCount}
+            onPageChange={props.changePage}
+            containerClassName={"paginationBttns"}
+            previousLinkClassName={"previousBttn"}
+            nextLinkClassName={"nextBttn"}
+            disabledClassName={"paginationDisabled"}
+            activeClassName={"paginationActive"}
+            pageRangeDisplayed={5}
+            forcePage={props.pageNumber}
+          />
+          <Table
+            tblHeader={tblServicesHeaderKeys}
+            tblBody={ordersDisplayData}
+            tableMainClass={"table-vehicle-admin-order-dets"}
+            tableSecondaryClass={"table-vehicle-admin-order-dets-layout"}
+            renderArr={[1,2,3]}
+            linkTo={`/dashboard/comenzi/detalii`}
+            pageNumber={props.pageNumber}
+            itemsPerPage={props.itemsPerPage}
+          />
+          <ReactPaginate
+              previousLabel={"<"}
+              nextLabel={">"}
+              pageCount={props.pageCount}
+              onPageChange={props.changePage}
+              containerClassName={"paginationBttns"}
+              previousLinkClassName={"previousBttn"}
+              nextLinkClassName={"nextBttn"}
+              disabledClassName={"paginationDisabled"}
+              activeClassName={"paginationActive"}
+              pageRangeDisplayed={5}
+              forcePage={props.pageNumber}
+            />
+          </>
+          :         
+          <ScaleLoader 
+          css={override}
+          height='50px'
+          width='5px'
+          color={"#457B9D"}
+          loading={props.showSpinner}
+          />
+        }           
       </div>
     </div>
   )

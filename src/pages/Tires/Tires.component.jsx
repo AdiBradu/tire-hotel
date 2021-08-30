@@ -8,6 +8,7 @@ import Navigation from '../../components/Navigation/Navigation.component'
 import {ScaleLoader} from 'react-spinners'
 import FilterTab from '../../components/FilterTab/FilterTab.component'
 import Table from '../../components/Table/Table.component'
+import ReactPaginate from "react-paginate";
 
 const override =`
   width: 875px;
@@ -76,73 +77,8 @@ export default function Tires(props) {
       currentFilter: props.tiresDotFilter   
     }
   ]
-
-
   let fleetDisplayData = props.fleetTiresList ? props.fleetTiresList.slice() : [];  
-  
-  if(props.tiresWidthFilter) {
-    fleetDisplayData = fleetDisplayData.filter(item => item.width.toLowerCase() === props.tiresWidthFilter.toLowerCase())
-  }
-  if(props.tiresHeightFilter) {
-    fleetDisplayData = fleetDisplayData.filter(item => item.height.toLowerCase() === props.tiresHeightFilter.toLowerCase())
-  }
-  if(props.tiresDiameterFilter) {
-    fleetDisplayData = fleetDisplayData.filter(item => item.diameter.toLowerCase() === props.tiresDiameterFilter.toLowerCase())
-  }
-  if(props.tiresSeasonFilter) {
-    fleetDisplayData = fleetDisplayData.filter(item => item.tire_season.toLowerCase() === props.tiresSeasonFilter.toLowerCase())
-  }
-  if(props.tiresBrandFilter) {
-    fleetDisplayData = fleetDisplayData.filter(item => item.brand.toLowerCase() === props.tiresBrandFilter.toLowerCase())
-  }
-  if(props.vehicleTypeFilter) {
-    fleetDisplayData = fleetDisplayData.filter(item => item.vehicle_type.toLowerCase() === props.vehicleTypeFilter.toLowerCase())
-  }
-  if(props.tiresTreadUsageFilter) {
-    fleetDisplayData = fleetDisplayData.filter(item => item.tread_wear.toLowerCase() === props.tiresTreadUsageFilter.toLowerCase())
-  }
-  if(props.tiresTreadUsageMmFilter) {
-    fleetDisplayData = fleetDisplayData.filter(item => parseFloat(item.tire_tread_wear) === parseFloat(props.tiresTreadUsageMmFilter))
-  }
-  if(props.tiresDotFilter) {
-    fleetDisplayData = fleetDisplayData.filter(item => item.tire_dot.toLowerCase() === props.tiresDotFilter.toLowerCase())
-  }
- 
   let dataSet = []
-  if(fleetDisplayData.length) {
-    dataSet = [
-      {
-        columns: [
-          {title: "Latime", style: {font: {sz: "14", bold: true}}}, 
-          {title: "Inaltime", style: {font: {sz: "14", bold: true}}},
-          {title: "Diametru", style: {font: {sz: "14", bold: true}}},
-          {title: "Ind. viteza", style: {font: {sz: "14", bold: true}}},
-          {title: "Ind. sarcina", style: {font: {sz: "14", bold: true}}},
-          {title: "Sezon", style: {font: {sz: "14", bold: true}}},
-          {title: "Brand", style: {font: {sz: "14", bold: true}}},
-          {title: "Tip auto", style: {font: {sz: "14", bold: true}}},
-          {title: "Uzura", style: {font: {sz: "14", bold: true}}},
-          {title: "Uzura (mm)", style: {font: {sz: "14", bold: true}}},
-          {title: "DOT", style: {font: {sz: "14", bold: true}}}
-
-        ],
-        data: fleetDisplayData.map((data, index) => [          
-          {value: data.width, style: {font: {sz: "12"}}},
-          {value: data.height, style: {font: {sz: "12"}}},
-          {value: data.diameter, style: {font: {sz: "12"}}},
-          {value: data.speed_index, style: {font: {sz: "12"}}},
-          {value: data.load_index, style: {font: {sz: "12"}}},
-          {value: data.tire_season, style: {font: {sz: "12"}}},
-          {value: data.brand, style: {font: {sz: "12"}}},
-          {value: data.vehicle_type, style: {font: {sz: "12"}}},
-          {value: data.tread_wear, style: {font: {sz: "12"}}},
-          {value: data.tire_tread_wear, style: {font: {sz: "12"}}},
-          {value: data.tire_dot, style: {font: {sz: "12"}}}
-        ])
-      }
-    ]
-  }
-  
   return (
     <div className="dashboard">
       <Navigation/>
@@ -176,19 +112,51 @@ export default function Tires(props) {
           xlsName={props.fleetData.fleet_name}
           sheetName={"Portofoliu anvelope"}
           elementsOnPageCount={fleetDisplayData.length}
+          getExportData={props.getExportData}
+          totalItems={parseInt(props.fleetData.excessiveUsageTires + props.fleetData.mediumUsageTires + props.fleetData.noUsageTires)}
         />
         <FilterTab
           showFilters={showFilters}
           filtersList={filtersList}
         />
-        {fleetDisplayData.length ? 
+        {!props.showSpinner && fleetDisplayData.length ? 
+        <>
+        <ReactPaginate
+          previousLabel={"<"}
+          nextLabel={">"}
+          pageCount={props.pageCount}
+          onPageChange={props.changePage}
+          containerClassName={"paginationBttns"}
+          previousLinkClassName={"previousBttn"}
+          nextLinkClassName={"nextBttn"}
+          disabledClassName={"paginationDisabled"}
+          activeClassName={"paginationActive"}
+          pageRangeDisplayed={5}
+          forcePage={props.pageNumber}
+        />
         <Table
           tblHeader={tblHeaderKeys}
           tblBody={fleetDisplayData}     
           tableMainClass={"table-tires"}
           tableSecondaryClass={"table-tires-layout"}
           renderArr={[1,2,3,4,5,6,7,8,9,10,11]}    
+          pageNumber={props.pageNumber}
+          itemsPerPage={props.itemsPerPage}
         />
+        <ReactPaginate
+          previousLabel={"<"}
+          nextLabel={">"}
+          pageCount={props.pageCount}
+          onPageChange={props.changePage}
+          containerClassName={"paginationBttns"}
+          previousLinkClassName={"previousBttn"}
+          nextLinkClassName={"nextBttn"}
+          disabledClassName={"paginationDisabled"}
+          activeClassName={"paginationActive"}
+          pageRangeDisplayed={5}
+          forcePage={props.pageNumber}
+        />
+        </>  
         :        
         <ScaleLoader 
           css={override}

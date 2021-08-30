@@ -7,6 +7,7 @@ import Navigation from '../../components/Navigation/Navigation.component'
 import {ScaleLoader} from 'react-spinners';
 import SectionSubTitle from '../../components/SectionSubTitle/SectionSubTitle.component'
 import Table from '../../components/Table/Table.component'
+import ReactPaginate from "react-paginate"
 
 const override =`
   width: 875px;
@@ -17,7 +18,7 @@ const override =`
   border-color: red;
 `;
 
-export default function Anvelope(props) {
+export default function Anvelope(props) { 
   const tblHeaderKeys = ["nr. crt.", "denumire", "judet", "vehicule", "anvelope", "Health score"]
   const [showFilters, setShowFilters] = useState(false)
   const filtersList = [
@@ -36,44 +37,8 @@ export default function Anvelope(props) {
   ]
   
   let fleetsDisplayData = props.fleets ? props.fleets.slice() : [];
-  if(props.regionFilter) {
-    fleetsDisplayData = fleetsDisplayData.filter(item => item.fleet_region.toLowerCase() === props.regionFilter.toLowerCase())
-  }
-  if(props.healthScoreFilter !== "" && props.healthScoreFilter !== null && props.healthScoreFilter !== undefined) {
-    fleetsDisplayData = fleetsDisplayData.filter(item => item.tireHealthScore === props.healthScoreFilter)
-  }
-  if(props.search){
-    fleetsDisplayData = fleetsDisplayData.filter(item => {
-      const query = props.search.toLowerCase();
-      return (
-        item.fleet_name.toLowerCase().indexOf(query) >= 0 ||
-        item.fleet_region.toLowerCase().indexOf(query) >= 0 
-      )
-    })
-  }
   
   let dataSet = []
-  if(fleetsDisplayData.length) {
-    dataSet = [
-      {
-        columns: [
-          {title: "Denumire", style: {font: {sz: "14", bold: true}}, width: {wpx: 320}}, 
-          {title: "Judet", style: {font: {sz: "14", bold: true}}, width: {wpx: 100}},
-          {title: "Vehicule", style: {font: {sz: "14", bold: true}}, width: {wpx: 100}}, 
-          {title: "Anvelope", style: {font: {sz: "14", bold: true}}, width: {wpx: 140}}, 
-          {title: "Health Score", style: {font: {sz: "14", bold: true}}, width: {wpx: 135}}, 
-            
-        ],
-        data: fleetsDisplayData.map((data, index) => [          
-          {value: data.fleet_name, style: {font: {sz: "12"}}},
-          {value: data.fleet_region, style: {font: {sz: "12"}}},
-          {value: data.vehiclesCount, style: {font: {sz: "12"}}},
-          {value: data.tiresCount, style: {font: {sz: "12"}}},
-          {value: data.tireHealthScore, style: {font: {sz: "12"}}},
-        ])
-      }
-    ]
-  }
 
   return (
     <div className="dashboard">
@@ -86,15 +51,19 @@ export default function Anvelope(props) {
           searchBarVal={props.search} 
         />       
         <SectionSubTitle text="Toate" data={props.totalTires} name={"anvelope"}/>
+        
         <TableTitle
           text="Portofoliu anvelope"
           setShowFilters={setShowFilters}
           showFilters={showFilters}
           dataSet={dataSet}
+          getExportData={props.getExportData}
           xlsName={"Export portofoliu anvelope"}
           sheetName={"Portofoliu anvelope"} 
           elementsOnPageCount={fleetsDisplayData.length}
+          totalItems={props.totalItems}
         />
+         
         {fleetsDisplayData.length ?
         <FilterTab 
           showFilters={showFilters}
@@ -103,7 +72,21 @@ export default function Anvelope(props) {
         :
         null
         }
-        {fleetsDisplayData.length ?
+        {!props.showSpinner ? 
+          <>
+          <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            pageCount={props.pageCount}
+            onPageChange={props.changePage}
+            containerClassName={"paginationBttns"}
+            previousLinkClassName={"previousBttn"}
+            nextLinkClassName={"nextBttn"}
+            disabledClassName={"paginationDisabled"}
+            activeClassName={"paginationActive"}
+            pageRangeDisplayed={5}
+            forcePage={props.pageNumber}
+          />
           <Table
             tblHeader={tblHeaderKeys}
             tblBody={fleetsDisplayData}            
@@ -111,7 +94,23 @@ export default function Anvelope(props) {
             tableMainClass={"table-anvelope"}
             tableSecondaryClass={"table-layout-anvelope"}
             renderArr={[1,2,3,4,8]}
+            pageNumber={props.pageNumber}
+            itemsPerPage={props.itemsPerPage}
           />
+          <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            pageCount={props.pageCount}
+            onPageChange={props.changePage}
+            containerClassName={"paginationBttns"}
+            previousLinkClassName={"previousBttn"}
+            nextLinkClassName={"nextBttn"}
+            disabledClassName={"paginationDisabled"}
+            activeClassName={"paginationActive"}
+            pageRangeDisplayed={5}
+            forcePage={props.pageNumber}
+          />
+          </>
         :         
         <ScaleLoader 
         css={override}

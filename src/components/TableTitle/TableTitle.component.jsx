@@ -18,10 +18,11 @@ export default function TableTitle(props) {
       {props.elementsOnPageCount ? 
         <ActionButton onClick={ () => props.setShowFilters(!props.showFilters)} name={'filtreaza'} icon={FilterLogo} color={'#457B9D'}/> 
       : null}
+      {props.getExportData && props.totalItems > 0 ? <ActionButton onClick={props.getExportData} name={'exporta'} icon={ExportLogo} color={'#457B9D'}/> : null}
       {props.dataSet.length !== 0 ? (
         <ExcelFile 
         filename={props.xlsName}
-        element={<ActionButton name={'exporta'} icon={ExportLogo} color={'#457B9D'}/>}>
+        element={<ActionButton name={'exporta'} icon={ExportLogo} onClick={props.setExportData ? props.setExportData : null} color={'#457B9D'}/>}>
             <ExcelSheet dataSet={props.dataSet} name={props.sheetName}/>
         </ExcelFile>
       ): null}   

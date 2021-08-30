@@ -48,3 +48,35 @@ h6{
   transition: ease-in-out;
   transition-duration: 0.3;
 }
+
+.paginationBttns {
+  width: 80%;
+  height: 40px;
+  list-style: none;
+  display: flex;
+  /* justify-content: center; */
+}
+
+.paginationBttns a {
+  padding: 7px 14px;
+  margin: 1px;
+  border-radius: 5px;
+  /* border: 1px solid #457B9D; */
+  color: #457B9D;
+  cursor: pointer;
+}
+
+.paginationBttns a:hover {
+  color: white;
+  background-color: #457B9D;
+}
+
+.paginationActive a {
+  color: white;
+  background-color: #457B9D;
+}
+
+/* .paginationDisabled a {
+  color: grey;
+  background-color: grey;
+} */

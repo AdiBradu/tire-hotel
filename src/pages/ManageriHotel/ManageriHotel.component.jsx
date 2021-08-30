@@ -50,7 +50,7 @@ export default function ManageriHotel(props) {
       <Navigation/>
       <div className="workspace">
         <SectionTitle 
-          text="Agenti"
+          text="Manageri hotel"
           showSearchBar={true}
           onSearchBarChange={props.handleSearchChange}
           searchBarVal={props.search} 

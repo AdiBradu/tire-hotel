@@ -6,6 +6,7 @@ import FilterTab from '../../components/FilterTab/FilterTab.component'
 import Navigation from '../../components/Navigation/Navigation.component'
 import Table from '../../components/Table/Table.component'
 import {ScaleLoader} from 'react-spinners'
+import ReactPaginate from "react-paginate"
 
 const override =`
   width: 875px;
@@ -39,23 +40,7 @@ export default function Cereri(props) {
   
 
   let reqDisplayData = props.reqList ? props.reqList.slice() : [];
-  if(props.reqTypeFilter) {
-    reqDisplayData = reqDisplayData.filter(item => item.request_type.toLowerCase() === props.reqTypeFilter.toLowerCase())
-  }
 
-  if(props.reqStatusFilter) {
-    reqDisplayData = reqDisplayData.filter(item => item.request_status.toLowerCase() === props.reqStatusFilter.toLowerCase())
-  }
- 
- 
-  if(props.search){
-    reqDisplayData = reqDisplayData.filter(item => {
-      const query = props.search.toLowerCase();
-      return (
-        item.reg_number.toLowerCase().indexOf(query) >= 0 
-      )
-    })
-  }
   let dataSet = [] 
 
   return (
@@ -80,15 +65,43 @@ export default function Cereri(props) {
           showFilters={showFilters}
           filtersList={filtersList}
         />
-        {reqDisplayData.length ? 
-        <Table 
-          tblHeader={tblHeaderKeys}
-          tblBody={reqDisplayData}
-          tableMainClass={"table-cereri"}
-          tableSecondaryClass={"table-layout-cereri"}
-          renderArr={[1,2,3]}        
-          linkTo={"/dashboard/cerere"} 
-        />
+        {!props.showSpinner ? 
+          <>
+          <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            pageCount={props.pageCount}
+            onPageChange={props.changePage}
+            containerClassName={"paginationBttns"}
+            previousLinkClassName={"previousBttn"}
+            nextLinkClassName={"nextBttn"}
+            disabledClassName={"paginationDisabled"}
+            activeClassName={"paginationActive"}
+            pageRangeDisplayed={5}
+            forcePage={props.pageNumber}
+          />
+          <Table 
+            tblHeader={tblHeaderKeys}
+            tblBody={reqDisplayData}
+            tableMainClass={"table-cereri"}
+            tableSecondaryClass={"table-layout-cereri"}
+            renderArr={[1,2,3]}        
+            linkTo={"/dashboard/cerere"} 
+          />
+          <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            pageCount={props.pageCount}
+            onPageChange={props.changePage}
+            containerClassName={"paginationBttns"}
+            previousLinkClassName={"previousBttn"}
+            nextLinkClassName={"nextBttn"}
+            disabledClassName={"paginationDisabled"}
+            activeClassName={"paginationActive"}
+            pageRangeDisplayed={5}
+            forcePage={props.pageNumber}
+          />
+          </>
         :        
         <ScaleLoader 
           css={override}

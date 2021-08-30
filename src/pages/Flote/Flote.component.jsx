@@ -9,7 +9,7 @@ import AddButton from '../../components/PrimaryButton/PrimaryButton.component'
 import AddLogo from '../../assets/add.png'
 import Table from '../../components/Table/Table.component'
 import {ScaleLoader} from 'react-spinners';
-
+import ReactPaginate from "react-paginate";
 
 const override =`
   width: 875px;
@@ -61,44 +61,7 @@ export default function Flote(props) {
   ]
   
   let fleetsDisplayData = props.fleets ? props.fleets.slice() : [];
-  if(props.regionFilter) {
-    fleetsDisplayData = fleetsDisplayData.filter(item => item.fleet_region.toLowerCase() === props.regionFilter.toLowerCase())
-  }
-  if(props.healthScoreFilter !== "" && props.healthScoreFilter !== null && props.healthScoreFilter !== undefined) {    
-    fleetsDisplayData = fleetsDisplayData.filter(item => parseInt(item.tireHealthScore) === parseInt(props.healthScoreFilter))
-  }
-  if(props.search){
-    fleetsDisplayData = fleetsDisplayData.filter(item => {
-      const query = props.search.toLowerCase();
-      return (
-        item.fleet_name.toLowerCase().indexOf(query) >= 0 ||
-        item.fleet_region.toLowerCase().indexOf(query) >= 0 
-      )
-    })
-  }
-  
   let dataSet = []
-  if(fleetsDisplayData.length) {
-    dataSet = [
-      {
-        columns: [
-          {title: "Denumire", style: {font: {sz: "14", bold: true}}, width: {wpx: 320}}, 
-          {title: "Judet", style: {font: {sz: "14", bold: true}}, width: {wpx: 100}},
-          {title: "Vehicule", style: {font: {sz: "14", bold: true}}, width: {wpx: 100}}, 
-          {title: "Anvelope", style: {font: {sz: "14", bold: true}}, width: {wpx: 140}}, 
-          {title: "Health Score", style: {font: {sz: "14", bold: true}}, width: {wpx: 135}}, 
-            
-        ],
-        data: fleetsDisplayData.map((data, index) => [          
-          {value: data.fleet_name, style: {font: {sz: "12"}}},
-          {value: data.fleet_region, style: {font: {sz: "12"}}},
-          {value: data.vehiclesCount, style: {font: {sz: "12"}}},
-          {value: data.tiresCount, style: {font: {sz: "12"}}},
-          {value: data.tireHealthScore, style: {font: {sz: "12"}}},
-        ])
-      }
-    ]
-  }
  
   return (
     <div className="dashboard">
@@ -127,12 +90,28 @@ export default function Flote(props) {
           xlsName={"Export flote"}
           sheetName={"Portofoliu flote"} 
           elementsOnPageCount={fleetsDisplayData.length}
+          totalItems={props.totalItems}
+          getExportData={props.getExportData}
         />
         <FilterTab 
           showFilters={showFilters}
           filtersList={filtersList}
         />
-        {fleetsDisplayData.length ? 
+        {!props.showSpinner ? 
+          <>
+          <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            pageCount={props.pageCount}
+            onPageChange={props.changePage}
+            containerClassName={"paginationBttns"}
+            previousLinkClassName={"previousBttn"}
+            nextLinkClassName={"nextBttn"}
+            disabledClassName={"paginationDisabled"}
+            activeClassName={"paginationActive"}
+            pageRangeDisplayed={5}
+            forcePage={props.pageNumber}
+          /> 
           <Table 
             tblHeader={tblHeaderKeys}
             tblBody={fleetsDisplayData}
@@ -141,7 +120,23 @@ export default function Flote(props) {
             tableSecondaryClass={"table-layout-flote"}
             renderArr={[1,2,3,4,8]}
             actionsArr={actionsArr}
+            pageNumber={props.pageNumber}
+            itemsPerPage={props.itemsPerPage}
           />
+          <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            pageCount={props.pageCount}
+            onPageChange={props.changePage}
+            containerClassName={"paginationBttns"}
+            previousLinkClassName={"previousBttn"}
+            nextLinkClassName={"nextBttn"}
+            disabledClassName={"paginationDisabled"}
+            activeClassName={"paginationActive"}
+            pageRangeDisplayed={5}
+            forcePage={props.pageNumber}
+          />
+          </>
         :         
         <ScaleLoader 
         css={override}

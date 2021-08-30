@@ -34,16 +34,25 @@
   flex-direction: column;
   gap: 0.25rem;
   padding-bottom: 0.5rem;
+  overflow-wrap:break-word;
   .table-tires-layout{
       width: 100%;
       height: auto;
       display: grid;
-      grid-template-columns: repeat(4, 6rem) repeat(3, 7rem) 10rem 8rem 7rem 8rem 5rem;
+      grid-template-columns: repeat(4, 1.2fr) repeat(3, 1.4fr) 1.5fr 1.5fr 1.3fr 1.4fr 1fr;//repeat(4, 6rem) repeat(3, 7rem) 10rem 8rem 7rem 8rem 5rem;
+      overflow-wrap:break-word;
       grid-template-rows: repeat(1, 1fr);
       text-transform: capitalize;
       text-align: left;
   }     
 }
+
+@media only screen and (max-width: 1024px) {
+  .table-tires p{
+    font-size: 8.5px;
+  }
+}
+
 
 
 .partner-table{
@@ -83,13 +92,18 @@
       width: 100%;
       height: auto;
       display: grid;
-      grid-template-columns: 5rem 12rem 7rem 12rem 6rem 12rem 12rem 6rem 5rem 5rem;
+      /* grid-template-columns: 5rem 12rem 7rem 12rem 6rem 12rem 12rem 6rem 5rem 5rem; */
+      grid-template-columns: 1.1fr 2.5fr 2fr 3fr 1.3fr 2.4fr 2.4fr 1.4fr 1fr 1fr 1.1fr;
       grid-template-rows: repeat(1, 1fr);
       text-transform: capitalize;
       text-align: left;
   }     
 }
-
+@media only screen and (max-width: 1024px) {
+  .table-services-tires-layout p{
+    font-size: 8.5px;
+  }
+}
 
 .table-services{
   width: 100%;
@@ -219,11 +233,18 @@
       width: 100%;
       height: auto;
       display: grid;
-      grid-template-columns: 5rem 13rem 8rem 12rem 7rem 10rem 10rem 6rem 4rem 4rem 5rem;
+      /* grid-template-columns: 5rem 13rem 8rem 12rem 7rem 10rem 10rem 6rem 4rem 4rem 5rem; */
+      grid-template-columns: 1.1fr 2.5fr 2fr 3fr 1.3fr 2.2fr 2.2fr 1.4fr 1fr 1fr 1.1fr;
       grid-template-rows: repeat(1, 1fr);
       text-transform: capitalize;
       text-align: left;
   }    
+}
+
+@media only screen and (max-width: 1024px) {
+  .table-vehicle-dets p{
+    font-size: 8.5px;
+  }
 }
 
 .table-vehicle-admin-order-dets{

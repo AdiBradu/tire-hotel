@@ -6,6 +6,7 @@ import FilterTab from '../../components/FilterTab/FilterTab.component'
 import Navigation from '../../components/Navigation/Navigation.component'
 import Table from '../../components/Table/Table.component'
 import {ScaleLoader} from 'react-spinners'
+import ReactPaginate from "react-paginate"
 
 const override =`
   width: 875px;
@@ -32,35 +33,9 @@ export default function HotelFlota(props) {
   
 
   let fleetDisplayData = props.hotelVehiclesList ? props.hotelVehiclesList.slice() : [];
-  if(props.vehicleTypeFilter) {
-    fleetDisplayData = fleetDisplayData.filter(item => item.vehicle_type.toLowerCase() === props.vehicleTypeFilter.toLowerCase())
-  }
  
-  if(props.search){
-    fleetDisplayData = fleetDisplayData.filter(item => {
-      const query = props.search.toLowerCase();
-      return (
-        item.reg_number.toLowerCase().indexOf(query) >= 0 
-      )
-    })
-  }
   let dataSet = []
-  if(fleetDisplayData.length) {
-    dataSet = [
-      {
-        columns: [
-          {title: "Nr. Inmatriculare", style: {font: {sz: "14", bold: true}}, width: {wpx: 320}}, 
-          {title: "KM", style: {font: {sz: "14", bold: true}}, width: {wpx: 100}},
-          {title: "Tip auto", style: {font: {sz: "14", bold: true}}, width: {wpx: 100}}
-        ],
-        data: fleetDisplayData.map((data, index) => [          
-          {value: data.reg_number, style: {font: {sz: "12"}}},
-          {value: data.vehicle_milage, style: {font: {sz: "12"}}},
-          {value: data.vehicle_type, style: {font: {sz: "12"}}}
-        ])
-      }
-    ]
-  }
+ 
 
   return (
     <div className="dashboard">
@@ -79,20 +54,52 @@ export default function HotelFlota(props) {
           xlsName={"Portofoliu hotel vehicule"}
           sheetName={"Portofoliu hotel vehicule"}
           elementsOnPageCount={fleetDisplayData.length}
+          getExportData={props.getExportData}
+          totalItems={props.totalItems}
         />
         <FilterTab 
           showFilters={showFilters}
           filtersList={filtersList}
         />
-        {fleetDisplayData.length ? 
+        {!props.showSpinner ? 
+        <>
+        <ReactPaginate
+          previousLabel={"<"}
+          nextLabel={">"}
+          pageCount={props.pageCount}
+          onPageChange={props.changePage}
+          containerClassName={"paginationBttns"}
+          previousLinkClassName={"previousBttn"}
+          nextLinkClassName={"nextBttn"}
+          disabledClassName={"paginationDisabled"}
+          activeClassName={"paginationActive"}
+          pageRangeDisplayed={5}
+          forcePage={props.pageNumber}
+        />
         <Table 
           tblHeader={tblHeaderKeys}
           tblBody={fleetDisplayData}
           tableMainClass={"table"}
           tableSecondaryClass={"table-layout"}
           renderArr={[1,2,3,4,5]}     
-          linkTo={`/dashboard/fisa_auto`}             
+          linkTo={`/dashboard/fisa_auto`}    
+          pageNumber={props.pageNumber}
+          itemsPerPage={props.itemsPerPage}         
         />
+        <ReactPaginate
+          previousLabel={"<"}
+          nextLabel={">"}
+          pageCount={props.pageCount}
+          onPageChange={props.changePage}
+          containerClassName={"paginationBttns"}
+          previousLinkClassName={"previousBttn"}
+          nextLinkClassName={"nextBttn"}
+          disabledClassName={"paginationDisabled"}
+          activeClassName={"paginationActive"}
+          pageRangeDisplayed={5}
+          forcePage={props.pageNumber}
+        />
+        </>
         :        
         <ScaleLoader 
           css={override}

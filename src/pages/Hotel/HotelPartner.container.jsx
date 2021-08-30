@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import api from '../../utils/Api'
+import debounce from 'lodash.debounce'
 import HotelPartner from './HotelPartner.component'
 import { useAuth } from '../../contexts/AuthContext'
 import { useHistory } from 'react-router-dom'
+import fileSaver from 'file-saver'
 
 export default function HotelPartnerContainer() {
   const [loading, setLoading] = useState(true)    
@@ -15,37 +17,77 @@ export default function HotelPartnerContainer() {
   const [showSpinner, setShowSpinner] = useState(true)   
   const { currentUser } = useAuth()  
   const history = useHistory()
+  const [totalHotelVehicles, setTotalHotelVehicles] = useState(0)
+  const [pageNumber, setPageNumber] = useState(0)
+  const itemsPerPage = 50
+  const [pageCount, setPageCount] = useState(0)
+
+  const getExportData = () => {
+    if(!showSpinner){
+      setShowSpinner(true)
+      api.get(`/hotelTires/hotelVehiclesToExcel`, {
+        responseType: 'arraybuffer',
+        params: {
+          totalHotelVehicles: totalHotelVehicles,
+          searchString: search,
+          vehicleTypeFilter: vehicleTypeFilter
+        }
+      }).then(res => {
+        setShowSpinner(false)  
+        var blob = new Blob([res.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+        fileSaver.saveAs(blob, 'Portofoliu hotel vehicule.xlsx')
+      }).catch(err => {
+        setShowSpinner(false)  
+      })         
+    }
+  }
+
 
   const handleRequestCreation = async reqRegN => {
     return api.post('/hotelRequests/', reqRegN)
   }
   
-  const loadHotelVehicles = async () => {
+  const loadHotelVehicles = async (pageNo, itemLimit, searchStr, vehicleTypeFilter) => {
     try {        
-      const response = await api.get(`/hotelTires/getPartnerHotelVehicles`)
-      setHotelVehiclesList(response.data)
+      const response = await api.get(`/hotelTires/getPartnerHotelVehicles`, {
+        params: {
+          page: pageNo,
+          limit: itemLimit,
+          searchString: searchStr,
+          vehicleTypeFilter: vehicleTypeFilter
+        }
+      })
+      setHotelVehiclesList(response.data.hotelVehiclesList)
+      setTotalHotelVehicles(response.data.hotelVehiclesCount)
+      setPageCount(Math.ceil(response.data.hotelVehiclesCount / itemsPerPage))
       setShowSpinner(false)
       setLoading(false)
       
     } catch (error) {
       setHotelVehiclesList([])
+      setTotalHotelVehicles(0)
+      setPageCount(0)
       setShowSpinner(false)
       setLoading(false) 
     }   
   }
 
+  const refreshHotelVehicles = useCallback(debounce(loadHotelVehicles, 300), [])
+
   useEffect(() => {
     let mounted  = true
-    if(mounted) loadHotelVehicles()
+    if(mounted) refreshHotelVehicles(pageNumber, itemsPerPage, search, vehicleTypeFilter)
     return () => mounted = false
-  },[])
+  },[pageNumber, search, vehicleTypeFilter])
   
   const handleVehicleTypeFilterChange = newFilter => {    
+    setPageNumber(0)
     setVehicleTypeFilter(newFilter)    
   }
   
   const handleSearchChange = newSearch => {
     setSearch(newSearch.target.value)    
+    setPageNumber(0)
   }
   const handleRequestChange = (fname, newReq) => {   
     let newReqVal = newReq.toUpperCase().replace(/[^0-9A-Z]+/gi, "")  
@@ -80,6 +122,11 @@ export default function HotelPartnerContainer() {
       setLoading(false)
     } 
   }
+
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  }
+
   return (!loading ? 
     <HotelPartner 
       error={error}
@@ -95,6 +142,12 @@ export default function HotelPartnerContainer() {
       handleRequestChange={handleRequestChange}
       loading={loading}
       handleSubmit={handleSubmit}
+      pageCount={pageCount}
+      changePage={changePage}
+      pageNumber={pageNumber}
+      itemsPerPage={itemsPerPage}
+      getExportData={getExportData}
+      totalItems={totalHotelVehicles}
      />
      :
      null

@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import api from '../../utils/Api'
+import debounce from 'lodash.debounce'
 import Flota from './Flota.component'
 import { useHistory } from 'react-router-dom'
+import fileSaver from 'file-saver'
 
 export default function FlotaContainer() {
   const [loading, setLoading] = useState(true)  
@@ -13,6 +15,10 @@ export default function FlotaContainer() {
   const [fleetId, setFleetId] = useState(null)
   const [canDelete, setCanDelete] = useState(true)
   const [showSpinner, setShowSpinner] = useState(true)
+  const [totalFleetVehicles, setTotalFleetVehicles] = useState(0)
+  const [pageNumber, setPageNumber] = useState(0)
+  const itemsPerPage = 50
+  const [pageCount, setPageCount] = useState(0)
 
   const deleteVehicle = async vId => {
     setCanDelete(false)
@@ -44,38 +50,70 @@ export default function FlotaContainer() {
     }  
   }
   
-  const loadFleetVehicles = async fId => {
+  const getExportData = () => {
+    if(!showSpinner){
+      setShowSpinner(true)
+      api.get(`/fleets/fleetVehiclesToExcel`, {
+        responseType: 'arraybuffer',
+        params: {
+          fleet_id: fleetId,
+          totalFleetVehicles: totalFleetVehicles,
+          searchString: search,
+          vehicleTypeFilter: vehicleTypeFilter,
+        }
+      }).then(res => {
+        setShowSpinner(false)  
+        var blob = new Blob([res.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+        fileSaver.saveAs(blob, fleetData.fleet_name + '.xlsx')
+      }).catch(err => {
+        setShowSpinner(false)  
+      })         
+    }
+  }
+
+  const loadFleetVehicles = async (fId, pageNo, itemLimit, searchStr, vehicleTypeFilter) => {
     try {        
       const response = await api.get(`/fleets/getFleetVehicles`, {
         params: {
-          fleet_id: fId
+          fleet_id: fId,
+          page: pageNo,
+          limit: itemLimit,
+          searchString: searchStr,
+          vehicleTypeFilter: vehicleTypeFilter,
         }
       })
-      setFleetVehiclesList(response.data)
+      setFleetVehiclesList(response.data.fleetVehicleList)
+      setTotalFleetVehicles(response.data.fleetVehicleCount)
+      setPageCount(Math.ceil(response.data.fleetVehicleCount / itemsPerPage))
       setShowSpinner(false)
       setLoading(false)
       
-    } catch (error) {
+    } catch (error) {     
       setFleetVehiclesList([])
+      setTotalFleetVehicles(0)
+      setPageCount(0)
       setShowSpinner(false)
       setLoading(false) 
     }   
   }
+  const refreshFleetVehicles = useCallback(debounce(loadFleetVehicles, 300), [])
 
   useEffect(() => {
     let mounted  = true
     if(mounted) loadFleet().then(res => {
-      loadFleetVehicles(res)
+      refreshFleetVehicles(res, pageNumber, itemsPerPage, search, vehicleTypeFilter)
     })
     return () => mounted = false
-  },[])  
+  },[pageNumber, search, vehicleTypeFilter])  
   
   const handleVehicleTypeFilterChange = newFilter => {    
     setVehicleTypeFilter(newFilter)    
+    setPageNumber(0)
   }
   
   const handleSearchChange = newSearch => {
     setSearch(newSearch.target.value)    
+    setPageNumber(0)
   }
   const deleteActionHandler = e => {
     let vId = e.target.attributes.data.value
@@ -89,7 +127,9 @@ export default function FlotaContainer() {
       history.push(`/dashboard/flote/editeaza/vehicul/${vId}`)
     }
   }
-  
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  }
   return (!loading ? 
     <Flota 
       fleetData={fleetData}
@@ -101,6 +141,12 @@ export default function FlotaContainer() {
       deleteActionHandler={deleteActionHandler}
       editActionHandler={editActionHandler}      
       showSpinner={showSpinner}
+      pageCount={pageCount}
+      changePage={changePage}
+      pageNumber={pageNumber}
+      itemsPerPage={itemsPerPage}
+      getExportData={getExportData}
+      totalItems={totalFleetVehicles}
      />
      :
      null

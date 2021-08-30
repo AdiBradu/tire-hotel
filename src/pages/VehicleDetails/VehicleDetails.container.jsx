@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import api from '../../utils/Api'
+import debounce from 'lodash.debounce'
 import { useHistory, useParams } from 'react-router-dom'
 import VehicleDetails from './VehicleDetails.component'
 
@@ -12,19 +13,27 @@ export default function VehicleDetailsContainer() {
   const [orders, setOrders] = useState([])
   const { vId } = useParams()
   const history = useHistory()
+  const [showSpinner, setShowSpinner] = useState(true)
+  const [totalOrders, setTotalOrders] = useState(0)
+  const [pageNumber, setPageNumber] = useState(0)
+  const itemsPerPage = 50
+  const [pageCount, setPageCount] = useState(0)
 
-  const loadOrders = async () => {
+  const loadOrders = async (pageNo, itemLimit) => {
+    setShowSpinner(true)
     try {        
       const response = await api.get(`/services/getVehicleOrders`,
       {
         params: {
-          v_id: vId
+          v_id: vId,
+          page: pageNo,
+          limit: itemLimit
         }
       }
       )         
-      if(response.data) {
+      if(response.data.vehicleOrders) {
         let formattedOrders = []
-        formattedOrders = response.data.map( (o, index) => {
+        formattedOrders = response.data.vehicleOrders.map( (o, index) => {
           let t = new Date(o.created);
           let d = t.getDate();       
           let m = t.getMonth()+1; 
@@ -37,12 +46,20 @@ export default function VehicleDetailsContainer() {
           newO.order_total_fleet = parseFloat(newO.order_total_fleet.toFixed(2))
           return newO
         })
+        setShowSpinner(false)
         setOrders(formattedOrders)        
+        setTotalOrders(response.data.vehicleOrdersCount)
+        setPageCount(Math.ceil(response.data.vehicleOrdersCount / itemsPerPage))
       }
     } catch (error) {
-      setOrders([])             
+      setShowSpinner(false)
+      setOrders([])        
+      setTotalOrders(0)
+      setPageCount(0)     
     }  
   }
+
+  const refreshOrders = useCallback(debounce(loadOrders, 300), [])
 
   const loadVehicleInfo = async vId => {
     try {        
@@ -95,11 +112,15 @@ export default function VehicleDetailsContainer() {
       setVehicleHotel(null)
     }  
   }
+  useEffect(() => {
+    let mounted  = true
+    if(mounted) refreshOrders(pageNumber, itemsPerPage)
+    return () => mounted = false
+  },[pageNumber])
 
   useEffect(() => {
     let mounted  = true
-    if(mounted) {           
-      loadOrders()
+    if(mounted) {          
       const getCurrentVehicleTires = async () => {
         return await loadVehicleTires(vId)
       }
@@ -120,7 +141,10 @@ export default function VehicleDetailsContainer() {
   const editHandler = () => {
     history.push(`/dashboard/flote/editeaza/vehicul/${vId}`)
   }
-  
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  }
+
   return (!loading &&    
    <VehicleDetails    
     reg_number={vData.regNumber}
@@ -131,6 +155,12 @@ export default function VehicleDetailsContainer() {
     editActionHandler={editHandler}
     vehicleHotel={vehicleHotel}
     orders={orders}
+    showSpinner={showSpinner}
+    pageCount={pageCount}
+    changePage={changePage}
+    pageNumber={pageNumber}
+    itemsPerPage={itemsPerPage}    
+    totalItems={totalOrders}
    />
   )
 }
